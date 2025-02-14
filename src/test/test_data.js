@@ -1334,7 +1334,7 @@ class TestData {
     }
 
     getGameData(index) {
-        if (index) {
+        if (typeof index === "number") {
             return this.test_data.toTestPlayer.games[index];
         } else {
             return this.test_data.toTestPlayer.games;
@@ -1342,7 +1342,7 @@ class TestData {
     }
 
     getExpectedHdcChange(index) {
-        if (index) {
+        if (typeof index === "number") {
             return this.test_data.expect.hdc_change[index];
         } else {
             return this.test_data.expect.hdc_change;
