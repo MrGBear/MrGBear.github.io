@@ -3,57 +3,91 @@
 
 
 //Config
-const FILEPATH = "./data/userdata.json";
+import { Storage } from './localstorage_store.js';
+import { calculate_ega } from './ega_handicap.js';
+import { calculateWHS } from './handicap_function.js';
+
+//overwrites localstorage function, always uses testdata
+const usetest = true;
 
 //Default JSON OBJECTS
-const default_value = {};
-const defaultgame = {};
+const default_value = {
+    "users": [
+        {
+            "user_id": 0,
+            "user_name": "Sekretär",
+            "password": "1234"
+        }
+    ],
+    "courses": [
 
+    ]
+};
 
 const dataObject = {
-    "player": {
-        "player_id": 1,
-        "player_name": "test",
-        "games": [
-            {
-                "game_id": 1,
-                "course_name": "Green Valley Golf Course",
-                "course_rating": 72.5,
-                "slope_rating": 113,
-                "ppc": 0,
-                "handicap_index": 12.4,
-                "date": "2023-10-15",
-                "score_differenital": 2.8,
-                "stableford": 36,
-                "ega": 11.9,
-                "whs": 12.1,
-                "holes": [
-                    {
-                        "pos": 1,
-                        "hdc": 14,
-                        "par": 4,
-                        "gbe": 5
-                    },
-                    {
-                        "pos": 2,
-                        "hdc": 3,
-                        "par": 3,
-                        "gbe": 4
-                    },
-                    {
-                        "pos": 3,
-                        "hdc": 6,
-                        "par": 5,
-                        "gbe": 5
-                    }
-                ]
-            }
-        ]
-    }
-}
+    "users": [
+        {
+            "user_id": 0,
+            "user_name": "Sekretär",
+            "password": "1234"
+        },
+        {
+            "user_id": 1,
+            "user_name": "Testuser1",
+            "games": [
+                {
+                    "game_id": 1,
+                    "course_name": "Green Valley Golf Course",
+                    "course_id": null,
+                    "course_rating": 72.5,
+                    "slope_rating": 113,
+                    "ppc": 0,
+                    "handicap_index": 12.4,
+                    "date": "2023-10-15",
+                    "score_differenital": 2.8,
+                    "stableford": 36,
+                    "ega": 11.9,
+                    "whs": 12.1,
+                    "holes": [
+                        {
+                            "pos": 1,
+                            "hdc": 14,
+                            "par": 4,
+                            "gbe": 5
+                        },
+                        {
+                            "pos": 2,
+                            "hdc": 3,
+                            "par": 3,
+                            "gbe": 4
+                        },
+                        {
+                            "pos": 3,
+                            "hdc": 6,
+                            "par": 5,
+                            "gbe": 5
+                        }
+                    ]
+                }
+            ]
+        }
+
+    ],
+    "courses": [
+
+    ]
+};
+
 
 function getData() {
-    return dataObject;
+    if(usetest){
+        return dataObject;
+    }
+    let data = Storage.getData();
+    if(!data){
+        return dataObject;
+    }
+    return data;
 }
 
 // Export Class for other modules to use
@@ -71,7 +105,7 @@ export class DataHandler{
     }
     
     saveData(){
-        //writeData(JSON.stringify(this.json_data));
+        Storage.setData(this.json_data);
     }
 
 
@@ -83,15 +117,44 @@ export class DataHandler{
         return data;
     }
 
+
+
+
     /* User Management */
 
     //returns all User in an array with their ID and Name
     getUsers(){
-        let players = [];
-        for (let player in this.json_data){
-            players.push({id: this.json_data[player].player_id, name: this.json_data[player].player_name});
+        let users = [];
+        const userData = this.getJSON().users;
+        for (let user in userData){
+            users.push({id: userData[user].user_id, name: userData[user].user_name});
         }
-        return players;
+        return users;
+    }
+    //add a User
+    // user_data = {user_name: "Name", password: "Password"}
+    addUser(user_data){
+        const users = this.json_data.users;
+        const user_id = users.reduce((max, user) => Math.max(max, user.user_id), 0) + 1;
+
+        let user = {
+            user_id: user_id,
+            user_name: user_data.user_name,
+            password: user_data.password
+        }
+        users.push(user);
+        this.saveData();
+    }
+
+    removeUser(user_id){
+        const users = this.json_data.users;
+        const index = users.findIndex(user => user.user_id == user_id);
+        if(index != -1){
+            users.splice(index, 1);
+            this.saveData();
+            return true;
+        }
+        return false
     }
 
     //sets the current player
@@ -104,16 +167,15 @@ export class DataHandler{
     //Checks if a user is correcktly set, otherwise throws an error
     //Returns the user Data
     //TODO: Check if user exists
-    getUserData(user = this.current_user, copy = true){
-        if(user == null){
+    getUserData(user_id = this.current_user, copy = true){
+        if(user_id == null){
             throw new Error("User is not set. Please use the switchUser method to set a user");
         } 
-        for (let player in this.json_data){
-            if(this.json_data[player].player_id == user){
-                return this.exportObject(this.json_data[player], copy);
-            }
-        }
+        return this.json_data.users.find(user => user.user_id == user_id);
     }
+
+
+
 
     /* Game Management */
 
@@ -130,36 +192,45 @@ export class DataHandler{
 
         //Asumtion User is correctly set
 
+        //Check if gameid in data is set, otherwise create a new one
+        if(!data.game_id){
+            //get game ID
+            const games = this.getGames();
+            const game_id = games.reduce((max, game) => Math.max(max, game.game_id), 0) + 1;
+            this.getGames(false).push({game_id: game_id});
+            data.game_id = game_id;
+        }
 
-        //get game ID
-        const games = this.getGames();
-        const game_id = games.reduce((max, game) => Math.max(max, game.game_id), 0) + 1;
-
-
-        //Create the new Game
-        let game = {};
-        game.game_id = game_id;
-        game.date = data.date;
-        game.course_name = data.course_name;
-        game.course_rating = data.course_rating;
-        game.slope_rating = data.slope_rating;
-        game.pcc = data.pcc;
-        game.holes = data.holes; 
-        game.ega = null;
-        game.whs = null;
-
-        //Calculate the Handicap(WHS, EGS)
-        //TODO: call functions
-        
-
-        //Add game to the JSON 
-        this.getGames(false).push(game);
-        this.saveData();
-        return this.exportObject(game);
+        return this.modGame(data.game_id, data);
     }
 
-    modGame(){
+    modGame(game_id, data){
+        const games = this.getGames(false);
 
+        let game = games.find(game => game.game_id == game_id);
+        if(!game){
+            return false;
+        }
+        //Set/update data
+        function setIfExist(key){
+            if(data[key]){
+                game[key] = data[key];
+            }
+        }
+        setIfExist("date");
+        setIfExist("course_name");
+        setIfExist("course_rating");
+        setIfExist("slope_rating");
+        setIfExist("pcc");
+        setIfExist("holes");
+        //Set the handicap values to null, so the calculator will recalculate them
+        game.whs = null;
+        game.ega = null;
+
+        //Calculate the Handicap
+        this.updateHandicap();
+        this.saveData();
+        return this.exportObject(game);
     }
 
     loadGame(game_id){  
@@ -178,7 +249,28 @@ export class DataHandler{
         }
         return false;
     }
+
+    updateHandicap(){
+        let games = this.getGames(false);
+        //find the index of the changed game, every game after this has to be recalculated
+        games.sort((a, b) => {if(a.date != b.date){return new Date(a.date) - new Date(b.date)} else {return a.game_id - b.game_id}});
+        const min_index = games.findIndex(game => !game.whs || !game.ega);
+        console.log("min Index:" + min_index);
+        for(let i = min_index; i < games.length; i++){
+            let subGames = this.exportObject(games.slice(0, i));
+            
+            const ega = calculate_ega(subGames);
+            games[i].ega = ega.ega;
+            games[i].stableford = ega.stableford;
+
+            const whs = calculateWHS(subGames);
+            games[i].whs = whs.whs; 
+            games[i].score_differential = whs.score_differential;
+        } 
+        this.saveData();
+    }
 }
+
 
 //EXPORT
 export const backendCalc = new DataHandler();

@@ -1,30 +1,52 @@
+const storage_key = "storage_dev"
 
-function setPlayerData(player) {
-    Validator.validatePlayer(player);
-    localStorage.setItem(player.player_id, JSON.stringify(player));
-}
-
-function getPlayerData(player_id) {
-    let player = JSON.parse(localStorage.getItem(player_id));
-
-    if (!player) {
-        console.error(`Player with the id ${player_id} not found in the local storage`);
-        return
+class DataStore {
+    constructor(name, storage_key) {
+        this.name = name;
+        this.storage_key = storage_key;
+        this.validator = null;
     }
 
-    try {
-        validator.validatePlayer(player);
-    } catch (e) {
-        console.error(e);
-        console.assert(false, 'Error while validating player data from the local storage');
-        return
+    /**
+     * 
+     * @returns The data from the localstorage assosiated with this DataStore
+     */
+    getData() {
+        let data = JSON.parse(localStorage.getItem(storage_key));
+
+        if (!data) {
+            console.log(`Data with the id ${storage_key} was not found in the local storage`);
+            return false
+        }
+        return data
     }
-    return player
+
+    /**
+     * 
+     * @param {*} data The data wanted to be stored
+     */
+    setData(data) {
+        let valid = true;
+        if (typeof this.validator === 'function') {
+            valid = this.validator(data)
+        }
+
+        if (!valid) {
+            console.assert(false, `Data given to Storage Store ${this.name}`, "was incorrect ", data);
+            throw new Error(`Data given to Storage Store ${this.name} was incorrect ${data}`);
+        }
+
+        localStorage.setItem(this.storage_key, JSON.stringify(data));
+    }
+
+    /**
+     * 
+     * @param {*} validator - Sets the validator function for the inserted data
+     */
+    setValidator(validator) {
+        this.validator = validator;
+    }
 }
 
+export const Storage = new DataStore("userdata", [storage_key]);
 
-// EXPORT
-export const localStorageStore = {
-    setPlayerData,
-    getPlayerData
-}
