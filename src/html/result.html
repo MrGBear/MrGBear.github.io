@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Result - Handicap</title>
+  <script src="../code/style.tailwind.js"></script>
+  <script src="../code/script.js"></script>
+  <link rel="icon" href="">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            darkseagreen: '#8FBC8F',
+            lightgreen: '#C5D9C5'
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body>
+<header class="bg-white flex text-darkseagreen center px-10 mb-10 w-full top-0 fixed z-50 shadow-md">
+  <a href="startPage.html" class="flex">
+    <img src="../resources/golf_cart.jpg" alt="logo_trial" width="80" height="80">
+    <h1 class="mt-6 ml-10 text-xl">Golf Handicap</h1>
+  </a>
+  <button id="switchUser" class="mt-4 mb-4 usernameDisplay ml-auto bg-darkseagreen text-white px-4 py-2 rounded-lg hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300" onclick="location.href='selectUser.html'"></button>
+</header>
+
+<main>
+  <section id="input_handicap" class="pt-24 pb-24 bg-cover bg-fixed bg-center bg-no-repeat bg-[url('../resources/wii.png')] shadow-md">
+    <div class="bg-white rounded-lg ml-40 mr-40 ">
+      <div class="flex">
+        <a href="javascript:history.back()" class="back-arrow">
+          <img src="../resources/arrow.png" alt="logo_trial" width="40" height="40" class="ml-6 py-4">
+        </a>
+        <h2 class="pt-6 ml-10 mb-4 text-xl text-darkseagreen">Ergebnisse</h2>
+      </div>
+      <div class="flex">
+        <div id="mermaidContainerWHS" class="mermaid ml-4 mt-10 mb-6"></div>
+        <div id="mermaidContainerEGA" class="mermaid ml-4 mt-10 mb-6"></div>
+      </div>
+      <!-- Platzhalter für WHS und EGA Berechnungsarten -->
+      <div class="flex justify-center gap-80 mb-6">
+        <div class="flex-1 max-w-xs">
+          <label for="whs" class="block text-darkseagreen text-xl font-bold mb-2">WHS Handicap</label>
+          <div id="whs" class="bg-lightgreen p-6 text-darkseagreen text-3xl font-semibold rounded-lg shadow-md text-center">
+            35
+          </div>
+        </div>
+        <div class="flex-1 max-w-xs">
+          <label for="ega" class="block text-darkseagreen text-xl font-bold mb-2">EGA Handicap</label>
+          <div id="ega" class="bg-lightgreen p-6 text-darkseagreen text-3xl font-semibold rounded-lg shadow-md text-center">
+            34
+          </div>
+        </div>
+      </div>
+      <!-- Beste und schlechteste Handicap -->
+      <div id="bestWorstHandicap" class="ml-6 py-10 text-darkseagreen text-lg font-semibold">
+        <p><span id="bestHandicap">Bestes Handicap: Noch nicht berechnet</span></p>
+        <p><span id="worstHandicap">Schlechtestes Handicap: Noch nicht berechnet</span></p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="bg-white flex text-darkseagreen center px-10 py-4 w-full bottom-0 fixed z-50">
+  <p>&copy; 2023 Golf Handicap. All rights reserved.</p>
+</footer>
+
+<script type="module" src="../code/chart.js"></script>
+<script type="module" src="../code/script.js"></script>
+<script type="module" src="../code/sendDataToCalc.js"></script>
+
+<script>
+  function displayUsername() {
+    const user = JSON.parse(localStorage.getItem("selectedUser"));
+    if (user) {
+      document.querySelectorAll(".usernameDisplay").forEach(element => {
+        element.textContent = user.name;
+      });
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", displayUsername);
+
+  // Beispiel für Diagramm erstellen
+  const ctx = document.getElementById('handicapChart').getContext('2d');
+  const handicapChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: ['Loch 1', 'Loch 2', 'Loch 3', 'Loch 4', 'Loch 5', 'Loch 6', 'Loch 7', 'Loch 8', 'Loch 9'], // Ersetze dies mit den realen Lochbezeichnern
+      datasets: [{
+        label: 'Handicap Verlauf',
+        data: [12, 11, 14, 13, 12, 10, 9, 8, 7], // Beispiel-Daten, diese sollten mit realen Handicap-Daten gefüllt werden
+        fill: false,
+        borderColor: 'darkseagreen',
+        tension: 0.1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+
+  // Berechnung der besten und schlechtesten Handicap-Werte (Platzhalter-Funktion)
+  function updateBestWorstHandicap() {
+    const whsValue = document.getElementById('whs').value;
+    const egaValue = document.getElementById('ega').value;
+
+    let best = Math.min(whsValue, egaValue);
+    let worst = Math.max(whsValue, egaValue);
+
+    document.getElementById('bestHandicap').textContent = `Bestes Handicap: ${best}`;
+    document.getElementById('worstHandicap').textContent = `Schlechtestes Handicap: ${worst}`;
+  }
+
+  // Event listener zum Aktualisieren der besten und schlechtesten Handicaps
+  document.getElementById('whs').addEventListener('input', updateBestWorstHandicap);
+  document.getElementById('ega').addEventListener('input', updateBestWorstHandicap);
+</script>
+</body>
+</html>

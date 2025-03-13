@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Page - Handicap</title>
+  <script src="../code/style.tailwind.js"></script>
+  <link rel="icon" href="">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            darkseagreen: '#8FBC8F',
+            lightgreen: '#C5D9C5'
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body>
+<header class="bg-white flex text-darkseagreen center px-10 mb-10 w-full top-0 fixed z-50 shadow-md">
+  <img src="../resources/golf_cart.jpg" alt="logo_trial" width="80" height="80">
+  <h1 class="mt-6 ml-10 text-xl">Golf Handicap</h1>
+  <button id="switchUser" class="mt-4 mb-4 usernameDisplay ml-auto bg-darkseagreen text-white px-4 py-2 rounded-lg hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300" onclick="location.href='selectUser.html'"></button>
+</header>
+<main>
+  <section id="startPage" class="pt-24 pb-24 bg-cover bg-fixed bg-center bg-no-repeat bg-[url('../resources/wii.png')] shadow-md">
+    <div class="bg-white rounded-lg ml-40 mr-40">
+      <div class="flex items-center justify-center">
+        <h1 class="mt-4 py-10 text-xl text-center">Willkommen zur Scorecard-Verwaltung, </h1>
+        <h1 id="name" class="usernameDisplay mt-4 ml-2 py-10 text-xl text-darkseagreen text-center"></h1>
+      </div>
+      <div id="userButtons" class="ml-20 mr-20 mb-10"></div>
+      <button type="button" id="toHandicap"  class="ml-20 mb-10 text-white bg-darkseagreen hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm sm:w-auto px-5 py-4 text-center w-1/2" onclick="location.href='index.html'">Neue Ergebnisse eintragen</button>
+    </div>
+  </section>
+</main>
+
+<footer class="bg-white flex text-darkseagreen center px-10 py-4 w-full bottom-0 fixed z-50">
+  <p>&copy; 2023 Golf Handicap. All rights reserved.</p>
+</footer>
+<script type="module">
+  import { DataHandler } from "../code/datahandler.js";
+
+  document.addEventListener("DOMContentLoaded", async function () {
+    const calc = new DataHandler();
+
+    let players = calc.getUsers();
+    const userButtonCon = document.getElementById("userButtons");
+    userButtonCon.innerHTML = "";
+
+    players.forEach(player => {
+      const button = document.createElement("button");
+      button.textContent = player.name;
+      button.className = "w-full text-white bg-darkseagreen hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mt-2";
+
+      button.addEventListener("click", function () {
+        localStorage.setItem("selectedUser", JSON.stringify(player));
+        if (player.id === 2) {
+          window.location.href = "admin.html";
+        } else {
+          showGamesPopup(player.id);
+        }
+      });
+
+      userButtonCon.appendChild(button);
+    });
+  });
+
+  function showGamesPopup(playerId) {
+    const calc = new DataHandler();
+    const playerData = calc.getGames(playerId);
+
+    let popupHTML = `<div class="fixed inset-0 bg-gray-800 bg-opacity-75 flex justify-center items-center z-50">
+        <div class="bg-white p-6 rounded-lg shadow-lg max-w-2xl w-full">
+            <h2 class="text-lg font-bold text-darkseagreen mb-4">${playerData.name}'s Scorecards</h2>
+            <div class="max-h-80 overflow-y-auto">`;
+
+    playerData.games.forEach(game => {
+      let holesHTML = "";
+      game.holes.forEach(hole => {
+        holesHTML += `
+                <div class="p-2 bg-gray-100 rounded-lg">
+                    <p class="text-gray-600"><strong>Pos:</strong> ${hole.pos}</p>
+                    <p class="text-gray-600"><strong>HDC:</strong> ${hole.hdc}</p>
+                    <p class="text-gray-600"><strong>PAR:</strong> ${hole.par}</p>
+                    <p class="text-gray-600"><strong>GPE:</strong> ${hole.gbe}</p>
+                </div>`;
+      });
+
+      popupHTML += `<div class="bg-white shadow-md rounded-lg p-4 mb-4 border border-gray-200">
+            <h2 class="text-lg font-bold text-darkseagreen">${game.course_name}</h2>
+            <p class="text-gray-600"><strong>Datum:</strong> ${game.date}</p>
+            <p class="text-gray-600"><strong>EGA:</strong> ${game.ega}</p>
+            <p class="text-gray-600"><strong>WHS:</strong> ${game.whs}</p>
+            <p class="text-gray-600"><strong>Score Differential:</strong> ${game.score_differenital}</p>
+            <p class="text-gray-600"><strong>Handicap Index:</strong> ${game.handicap_index}</p>
+            <p class="text-gray-600"><strong>Course Rating:</strong> ${game.course_rating}</p>
+            <p class="text-gray-600"><strong>Slope Rating:</strong> ${game.slope_rating}</p>
+            <p class="text-gray-600"><strong>PPC:</strong> ${game.ppc}</p>
+            <p class="text-gray-600"><strong>Stableford:</strong> ${game.stableford}</p>
+            <h2 class="text-m font-bold text-darkseagreen">Holes:</h2>
+            ${holesHTML}
+        </div>`;
+    });
+
+    popupHTML += `</div>
+        <button id="closePopup" class="mt-4 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Schließen</button>
+        </div>
+    </div>`;
+
+    const popupContainer = document.createElement("div");
+    popupContainer.innerHTML = popupHTML;
+    document.body.appendChild(popupContainer);
+
+    document.getElementById("closePopup").addEventListener("click", function () {
+      popupContainer.remove();
+    });
+  }
+
+  function displayUsername() {
+    const user = JSON.parse(localStorage.getItem("selectedUser"));
+    if (user) {
+      document.querySelectorAll(".usernameDisplay").forEach(element => {
+        element.textContent = user.name;
+      });
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", displayUsername);
+</script>
+</body>
+</html>

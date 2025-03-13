@@ -14,8 +14,9 @@ function writeChart(){
         + `    bar [${values.join(",")}]
 `
         + `    line [${values.join(",")}]`;
-0
-    document.getElementById("mermaidContainer").innerHTML = chartCode;
+
+    document.getElementById("mermaidContainerWHS").innerHTML = chartCode;
+    document.getElementById("mermaidContainerEGA").innerHTML = chartCode;
 }
 
 writeChart();

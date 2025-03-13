@@ -19,43 +19,43 @@ export function calculateWHS(data) {
     const lowest_delta = (arr, d) => arr.sort((a, b) => a - b)[0] + d;
 
     const game_count = scoringRecord.length;
-    
+
     const whs = getWHS(scoringRecord);
-    
+
     return({whs: whs, scoringRecord: scoringRecord});
 
 
     // determine the correct calculation method based on the number of games played 
-        function getWHS(scoringRecord){
-            let srcd = JSON.parse(JSON.stringify(scoringRecord));
-            srcd.map((x) => x.course_differential);
-            switch(true){
-                case(game_count <= 3):
-                    return lowest_delta(srcd, -2);
-                case(game_count === 4):
-                    return lowest_delta(srcd, -1);
-                case(game_count === 5):
-                    return lowest_delta(srcd, 0);
-                case(game_count === 6):
-                    return avg_best(srcd, 2) - 1;
-                case(game_count <= 8):
-                    return avg_best(srcd, 2);
-                case(game_count <= 11):
-                    return avg_best(srcd, 3);
-                case(game_count <= 14):
-                    return avg_best(srcd, 4);
-                case(game_count <= 16):
-                    return avg_best(srcd, 5);
-                case(game_count <= 18):
-                    return avg_best(srcd, 6);
-                case(game_count === 19):
-                    return avg_best(srcd, 7);
-                case(game_count === 20):
-                    return avg_best(srcd, 8);
-                default:
-                    throw new Error("Invalid game count");
-            }
+    function getWHS(scoringRecord){
+        let srcd = JSON.parse(JSON.stringify(scoringRecord));
+        srcd.map((x) => x.course_differential);
+        switch(true){
+            case(game_count <= 3):
+                return lowest_delta(srcd, -2);
+            case(game_count === 4):
+                return lowest_delta(srcd, -1);
+            case(game_count === 5):
+                return lowest_delta(srcd, 0);
+            case(game_count === 6):
+                return avg_best(srcd, 2) - 1;
+            case(game_count <= 8):
+                return avg_best(srcd, 2);
+            case(game_count <= 11):
+                return avg_best(srcd, 3);
+            case(game_count <= 14):
+                return avg_best(srcd, 4);
+            case(game_count <= 16):
+                return avg_best(srcd, 5);
+            case(game_count <= 18):
+                return avg_best(srcd, 6);
+            case(game_count === 19):
+                return avg_best(srcd, 7);
+            case(game_count === 20):
+                return avg_best(srcd, 8);
+            default:
+                throw new Error("Invalid game count");
         }
+    }
     /*
     // Berechnung der Ergebnisse der letzten 20 Spiele
 
@@ -106,8 +106,8 @@ function calculateNettoDoubleboggy(holes, player_handicap = 54){
         if(j == holes.length - 1){
             j = 0
         } else {
-            j++; 
-        } 
+            j++;
+        }
     }
     return holes
 }
@@ -153,7 +153,7 @@ function nineHoleCorrection(HCPI){
     //Setup for easy Calculation (js is to stupid for float)
     HCPI += 5;
     HCPI *= 10;
-   
+
     //Correction for missing 1 HCPI Point
     let SD = -14
 
