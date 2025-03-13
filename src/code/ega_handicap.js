@@ -1,6 +1,7 @@
 "use strict";
 
 class EgaCategory {
+    static CBA_REDUCTION_ONLY = "-2&RO";
     constructor(category, interval, buffer_zone, improve_handicap, reduce_handicap) {
         this.category = category;
         this.interval = interval;
@@ -23,12 +24,15 @@ class EgaCategory {
      * @param hole_length The number of holes the player played (9 or 18) else an error is thrown
      * @returns True if the handicap is in the buffer zone, false otherwise
      */
-    in_buffer_zone(stable_ford, hole_length) {
+    in_buffer_zone(stable_ford, hole_length, cba = 0) {
         if (hole_length !== 9 && hole_length !== 18) {
             console.assert(false, "The number of holes must be 9 or 18");
             throw new Error("The number of holes must be 9 or 18");
         }
-        return hole_length === 18 ? this.buffer_zone.hole_18 <= stable_ford : this.buffer_zone.hole_9 <= stable_ford;
+        if (cba === EgaCategory.CBA_REDUCTION_ONLY) {
+            return true;
+        }
+        return hole_length === 18 ? (this.buffer_zone.hole_18 + cba) <= stable_ford : (this.buffer_zone.hole_9 + cba) <= stable_ford;
     }
 
     /**
@@ -70,30 +74,30 @@ class EgaCategories {
 }
 
 class EgaCalculator {
+    /// Constants
+    // Buffer zone
+    static NO_BUFFER_ZONE = 37;
+    static ALL_BUFFER_ZONE = 0;
+    // Gbe if not set / not played / given up
+    static NOT_PLAYED = undefined;
+    // CBA
+    static CBA_REDUCTION_ONLY = EgaCategory.CBA_REDUCTION_ONLY;
     constructor() {
-        /// Constants
-        // Buffer zone
-        this.NO_BUFFER_ZONE = 37;
-        this.ALL_BUFFER_ZONE = 0;
-        // Gbe if not set / not played / given up
-        this.NOT_PLAYED = undefined;
-        // CBA
-        this.CBA_REDUCTION_ONLY = "-2&RO";
         this.ega_classes = new EgaCategories([
             new EgaCategory(6, { start: -54, end: -37 }, {
-                hole_18: this.ALL_BUFFER_ZONE,
-                hole_9: this.ALL_BUFFER_ZONE
+                hole_18: EgaCalculator.ALL_BUFFER_ZONE,
+                hole_9: EgaCalculator.ALL_BUFFER_ZONE
             }, 1, 0 // 0 means the handicap can not get worse
             ),
             new EgaCategory(5, { start: -36, end: -26.5 }, {
-                hole_18: this.ALL_BUFFER_ZONE,
-                hole_9: this.ALL_BUFFER_ZONE
+                hole_18: EgaCalculator.ALL_BUFFER_ZONE,
+                hole_9: EgaCalculator.ALL_BUFFER_ZONE
             }, 0.5, 0 // 0 means the handicap can not get worse
             ),
             new EgaCategory(4, { start: -26.4, end: -18.5 }, { hole_18: 32, hole_9: 34 }, 0.4, 0.1),
             new EgaCategory(3, { start: -18.4, end: -11.5 }, { hole_18: 33, hole_9: 35 }, 0.3, 0.1),
             new EgaCategory(2, { start: -11.4, end: -4.5 }, { hole_18: 34, hole_9: 36 }, 0.2, 0.1),
-            new EgaCategory(1, { start: -4.4, end: 4.0 }, { hole_18: 35, hole_9: this.NO_BUFFER_ZONE }, 0.1, 0.1),
+            new EgaCategory(1, { start: -4.4, end: 4.0 }, { hole_18: 35, hole_9: EgaCalculator.NO_BUFFER_ZONE }, 0.1, 0.1),
         ]);
         /**
          * Calculate the game with the given game state
@@ -103,7 +107,7 @@ class EgaCalculator {
             const prep_game = this.prepareGame(game, old_ega);
             const playing_handicap = this.calculate_playing_handicap(prep_game.handicap_index, prep_game.slope_rating, prep_game.course_rating, prep_game.holes);
             const stable_ford = this.calculate_stable_ford(playing_handicap, prep_game.holes);
-            const new_handicap = this.calculate_new_handicap(prep_game.handicap_index, stable_ford, prep_game.holes.length, 0); // TODO implement CBA? // See TODO_EGA
+            const new_handicap = this.calculate_new_handicap(prep_game.handicap_index, stable_ford, prep_game.holes.length, prep_game.cba); // TODO implement CBA? // See TODO_EGA
 
             // Update Game Stats
             game.stableford = stable_ford; // Store the stable ford points
@@ -121,6 +125,10 @@ class EgaCalculator {
 
             // Set the old EGA handicap
             game.handicap_index = old_ega
+
+            if (game.cba === undefined) {
+                game.cba = 0;
+            }
 
             {
                 const { handicap_index, course_rating, slope_rating, holes } = game;
@@ -147,7 +155,7 @@ class EgaCalculator {
                 throw new Error("The number of holes must be 9 or 18");
             }
             preparedGame.holes = preparedGame.holes.map((hole) => {
-                hole.gbe = hole.gbe ? hole.gbe : this.NOT_PLAYED;
+                hole.gbe = hole.gbe ? hole.gbe : EgaCalculator.NOT_PLAYED;
                 return hole;
             });
             return preparedGame;
@@ -233,7 +241,7 @@ class EgaCalculator {
                 }
             }
             let stable_ford = holes.reduce((acc, hole) => {
-                if (hole.gbe === this.NOT_PLAYED) {
+                if (hole.gbe === EgaCalculator.NOT_PLAYED) {
                     return acc;
                 } else {
                     // Possible Errors
@@ -264,7 +272,7 @@ class EgaCalculator {
                 console.assert(false, "The number of holes must be 9 or 18");
                 throw new Error("The number of holes must be 9 or 18");
             }
-            if (!(cba === -2 || cba === -1 || cba === 0 || cba === 1 || cba === 2 || cba === this.CBA_REDUCTION_ONLY)) {
+            if (!(cba === -2 || cba === -1 || cba === 0 || cba === 1 || cba === 2 || cba === EgaCalculator.CBA_REDUCTION_ONLY)) {
                 console.assert(false, "The CBA must be between -2 and 2 or -2&RO");
                 throw new Error("The CBA must be between -2 and 2 or -2&RO");
             }
@@ -274,7 +282,7 @@ class EgaCalculator {
             const stable_ford_diff = stable_ford - 36;
             if (stable_ford_diff <= 0) {
                 // Player played the handicap
-                if (ega_category.in_buffer_zone(stable_ford, holes_length)) {
+                if (ega_category.in_buffer_zone(stable_ford, holes_length, cba)) {
                     // Reached the buffer zone
                     return old_handicap;
                 } else {
@@ -304,6 +312,7 @@ class EgaCalculator {
     }
 }
 
+
 //EXPORT
 
 /**
@@ -320,10 +329,9 @@ export const ega_calc = (gamestats, old_ega) => {
  * @param {*} games Array of games, with the last game that needs to be calculated. If more values are unset, than this function throws an error.
  * Outputs: {ega, stableford, handicap_index}
  */
-
 export function calculate_ega(games) {
-    len = games.length
-    hdci = games[len - 2].ega;
+    let len = games.length
+    let hdci = games[len - 2].ega;
     if (typeof hole.hdc !== 'number') {
         throw new Error('The game before has no calculated value');
     }
