@@ -5,7 +5,6 @@
 //Config
 import { Storage } from './localstorage_store.js';
 import { calculate_ega } from './ega_handicap.js';
-import { calculateWHS } from './handicap_function.js';
 
 //overwrites localstorage function, always uses testdata
 const usetest = true;
@@ -34,6 +33,7 @@ const dataObject = {
         {
             "user_id": 1,
             "user_name": "Testuser1",
+            "password": "2345",
             "games": [
                 {
                     "game_id": 1,
@@ -71,7 +71,6 @@ const dataObject = {
                 }
             ]
         }
-
     ],
     "courses": [
 
@@ -123,14 +122,25 @@ export class DataHandler{
     /* User Management */
 
     //returns all User in an array with their ID and Name
-    getUsers(){
-        let users = [];
-        const userData = this.getJSON().users;
-        for (let user in userData){
-            users.push({id: userData[user].user_id, name: userData[user].user_name});
+    getUsers() {
+        console.log("Aktuelle Player-Daten:", this.json_data.users);
+
+        if (!this.json_data.users) return [];
+
+        if (Array.isArray(this.json_data.users)) {
+            return this.json_data.users.map(player => ({
+                id: player.user_id,
+                name: player.user_name
+            }));
+        } else {
+            return [{
+                id: this.json_data.users.user_id,
+                name: this.json_data.users.user_name
+            }];
         }
-        return users;
     }
+
+
     //add a User
     // user_data = {user_name: "Name", password: "Password"}
     addUser(user_data){

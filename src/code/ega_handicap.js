@@ -304,7 +304,6 @@ class EgaCalculator {
     }
 }
 
-
 //EXPORT
 
 /**
@@ -321,7 +320,8 @@ export const ega_calc = (gamestats, old_ega) => {
  * @param {*} games Array of games, with the last game that needs to be calculated. If more values are unset, than this function throws an error.
  * Outputs: {ega, stableford, handicap_index}
  */
-export default function calculate_ega(games) {
+
+export function calculate_ega(games) {
     len = games.length
     hdci = games[len - 2].ega;
     if (typeof hole.hdc !== 'number') {
