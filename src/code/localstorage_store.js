@@ -1,5 +1,6 @@
 const storage_key = "storage_dev"
 
+
 class DataStore {
     constructor(name, storage_key) {
         this.name = name;
@@ -12,7 +13,13 @@ class DataStore {
      * @returns The data from the localstorage assosiated with this DataStore
      */
     getData() {
-        let data = JSON.parse(localStorage.getItem(storage_key));
+        let data;
+        try{
+             data = JSON.parse(localStorage.getItem(storage_key));
+        } catch {
+            return null;
+        }
+        
 
         if (!data) {
             console.log(`Data with the id ${storage_key} was not found in the local storage`);
@@ -46,7 +53,12 @@ class DataStore {
     setValidator(validator) {
         this.validator = validator;
     }
+    
+    clearstorage(){
+        this.setData(undefined);
+    }
 }
 
 export const Storage = new DataStore("userdata", [storage_key]);
+//Storage.clearstorage();
 

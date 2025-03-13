@@ -7,7 +7,7 @@ import { Storage } from './localstorage_store.js';
 import { calculate_ega } from './ega_handicap.js';
 
 //overwrites localstorage function, always uses testdata
-const usetest = true;
+const usetest = false;
 
 //Default JSON OBJECTS
 const default_value = {
@@ -84,6 +84,7 @@ function getData() {
     }
     let data = Storage.getData();
     if(!data){
+        console.log("Using default");
         return dataObject;
     }
     return data;
