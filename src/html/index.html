@@ -3,8 +3,8 @@
     <head>
         <meta charset="UTF-8">
         <title>Golf Handicap</title>
-        <script src="../../resources/static/style.tailwind.js"></script>
-        <script src="/resources/js/script.js"></script>
+        <script src="../code/style.tailwind.js"></script>
+        <script src="../code/script.js"></script>
         <link rel="icon" href="">
         <script>
             tailwind.config = {
@@ -20,131 +20,69 @@
         </script>
     </head>
 <body>
-    <header class="bg-white flex text-darkseagreen center px-10 mb-10 w-full top-0 fixed z-50 shadow-md">
-        <img src="/resources/images/golf_cart.jpg" alt="logo_trial" width="80" height="80">
+    <header class="bg-white flex text-darkseagreen center px-10 py-4 mb-10 w-full top-0 fixed z-50 shadow-md">
+        <img src="../resources/golf_cart.jpg" alt="logo_trial" width="80" height="80">
         <h1 class="mt-6 ml-10 text-xl">Golf Handicap</h1>
     </header>
     <main>
-        <section id="input_handicap" class="pt-24 pb-24 bg-cover bg-fixed bg-center bg-no-repeat bg-[url('/resources/images/wii.png')] shadow-md">
+        <section id="input_handicap" class="pt-24 pb-24 bg-cover bg-fixed bg-center bg-no-repeat bg-[url('../resources/wii.png')] shadow-md">
             <div class="bg-white rounded-lg ml-40 mr-40 ">
-                <h2 class="mt-10 pt-8 ml-10 mb-4 text-xl text-blue-700">Eingabe</h2>
+                <h2 class="mt-10 pt-8 ml-10 mb-4 text-xl text-gray-500">Eingabe</h2>
                 <div class="flex gap-4">
                 <div class="w-1/2">
                     <div class="relative">
-                        <input type="text" id="player_name" class="ml-4 mt-4 mb-4 block rounded-t-lg px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-50 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />
-                        <label for="player_name" class="ml-4 absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-4 origin-[0] start-2.5 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4">Player name</label>
+                        <input type="text" id="player_name" class="ml-8 mt-4 mb-4 block rounded-t-lg px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-50 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />
+                        <label for="player_name" class="ml-8 absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-4 origin-[0] start-2.5 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4">Player name</label>
                     </div>
                     <div class="relative">
-                        <input type="text" id="curse_name" class="ml-4 mt-4 mb-4 block rounded-t-lg px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-50 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />
-                        <label for="curse_name" class="ml-4 absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-4 origin-[0] start-2.5 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4">Curse name</label>
+                        <input type="text" id="course_name" class="ml-8 mt-4 mb-4 block rounded-t-lg px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-50 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />
+                        <label for="course_name" class="ml-8 absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-4 origin-[0] start-2.5 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4">Course name</label>
                     </div>
                     <div class="relative">
-                        <input type="number" id="course_rating" class="ml-4 mt-4 mb-4 block rounded-t-lg px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-50 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />
-                        <label for="course_rating" class="ml-4 absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-4 origin-[0] start-2.5 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4">Slope rating</label>
+                        <input type="number" id="course_rating" class="ml-8 mt-4 mb-4 block rounded-t-lg px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-50 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />
+                        <label for="course_rating" class="ml-8 absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-4 origin-[0] start-2.5 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4">Course rating</label>
                     </div>
                     <div class="relative">
-                        <input type="number" id="slope_rating" class="ml-4 mt-4 mb-4 block rounded-t-lg px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-50 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />
-                        <label for="slope_rating" class="ml-4 absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-4 origin-[0] start-2.5 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4">Curse rating</label>
+                        <input type="number" id="slope_rating" class="ml-8 mt-4 mb-4 block rounded-t-lg px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-50 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />
+                        <label for="slope_rating" class="ml-8 absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-4 origin-[0] start-2.5 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4">Slope rating</label>
                     </div>
                     <div class="relative">
-                        <input type="number" id="ppc" class="ml-4 mt-4 mb-4 block rounded-t-lg px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-50 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />
-                        <label for="ppc" class="ml-4 absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-4 origin-[0] start-2.5 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4">PPC</label>
+                        <input type="number" id="ppc" class="ml-8 mt-4 mb-4 block rounded-t-lg px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-50 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />
+                        <label for="ppc" class="ml-8 absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-4 origin-[0] start-2.5 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4">PPC</label>
                     </div>
                     <div class="relative">
-                        <input type="number" id="handycap_index" class="ml-4 mt-4 mb-4 block rounded-t-lg px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-50 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />
-                        <label for="handycap_index" class="ml-4 absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-4 origin-[0] start-2.5 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4">Handicap index</label>
+                        <input type="number" id="handycap_index" class="ml-8 mt-4 mb-4 block rounded-t-lg px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-50 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />
+                        <label for="handycap_index" class="ml-8 absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-4 origin-[0] start-2.5 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4">Handicap index</label>
                     </div>
                     <div class="relative">
-                        <input type="date" id="date" class="ml-4 mt-4 mb-4 block rounded-t-lg px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-50 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />
-                        <label for="date" class="ml-4 absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-4 origin-[0] start-2.5 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4">Datum</label>
+                        <input type="date" id="date" class="ml-8 mt-4 mb-4 block rounded-t-lg px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-50 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />
+                        <label for="date" class="ml-8 absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-4 origin-[0] start-2.5 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4">Datum</label>
                     </div>
                 </div>
                 <div class="w-1/2">
-                    <section class="flex pl-40">
+                    <section class="flex pl-20">
                         <div class="relative">
                             <input type="number" id="number_holes" class="mr-4 mt-4 mb-4 block rounded-t-lg px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-50 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer w-1/2" placeholder=" " />
                             <label for="number_holes" class="mr-4 absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-4 origin-[0] start-2.5 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4">Number holes</label>
                         </div>
                         <button id="generateTable" class="ml-20 text-white bg-darkseagreen hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm sm:w-auto px-5 text-center w-1/2">Tabelle erstellen</button>
                     </section>
-                    <section id="holes">
-                        <table id="scoreTable" class="mt-10 ml-20 mb-20 border-collapse rounded-lg">
-
-                        </table>
+                    <section id="holes" class="pr-10">
+                        <table id="scoreTable" class="mt-10 ml-20 mb-20 border-collapse rounded-lg"></table>
                     </section>
                 </div>
-
-                </div>
-
-
-                <section id="placeholder_ergebnisse">
-                    <button type="button" id="calculateHandicap"  class="ml-10 mb-10 text-white bg-darkseagreen hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm sm:w-auto px-5 py-4 text-center w-1/2">Handicap berechnen</button>
-                </section>
-
-                <div id="mermaidContainer" class="hidden mermaid ml-4 mb-6">
-                </div>
-            </div>
+^			</div>
+            <section id="placeholder_ergebnisse">
+                <button type="button" id="calculateHandicap"  class="ml-10 mb-10 text-white bg-darkseagreen hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm sm:w-auto px-5 py-4 text-center w-1/2">Handicap berechnen</button>
+            </section>
+            <div id="mermaidContainer" class="hidden mermaid ml-4 mb-6"></div>
+        </div>
     </section>
-    </main>
-    <footer class="bg-white flex text-darkseagreen center px-10 py-4 w-full bottom-0 fixed z-50">
+</main>
+<footer class="bg-white flex text-darkseagreen center px-10 py-4 w-full bottom-0 fixed z-50">
     <p>&copy; 2023 Golf Handicap. All rights reserved.</p>
-    </footer>
-    <script type="module" src="/javaScript/chart.js">
-    </script>
-
-    <script>
-
-        document.getElementById("calculateHandicap").addEventListener("click", function () {
-            document.getElementById("mermaidContainer").classList.remove("hidden")
-        })
-
-
-
-        document.getElementById("generateTable").addEventListener("click", function() {
-            const numberOfHoles = parseInt(document.getElementById("number_holes").value);
-            const table = document.getElementById("scoreTable");
-
-            if (numberOfHoles < 1 || numberOfHoles > 18) {
-                alert("Bitte eine Anzahl zwischen 1 und 18 wählen.");
-                return;
-            }
-
-            table.innerHTML = "";
-
-            // Erstelle die Kopfzeile
-            const thead = document.createElement("thead");
-            thead.innerHTML = `
-                <tr class="bg-darkseagreen text-white rounded-lg">
-                    <th class="text-center py-2 px-4 text-left">Loch Nr</th>
-                    <th class="text-center py-2 px-4 text-left">Par</th>
-                    <th class="text-center py-2 px-4 text-left">GBE</th>
-                </tr>
-            `;
-            table.appendChild(thead);
-
-            // Erstelle die Tabelle mit Eingabefeldern
-            const tbody = document.createElement("tbody");
-
-            for (let i = 1; i <= numberOfHoles; i++) {
-                const row = document.createElement("tr");
-                row.className = i % 2 === 0 ? "bg-lightgreen" : "bg-lightgreen";
-
-                row.innerHTML = `
-                    <td class="py-2 px-4">
-                        <input type="number" name="holeNumber[]" value="${i}" class="w-full bg-darkseagreen text-center rounded-md p-1" readonly>
-                    </td>
-                    <td class="py-2 px-4">
-                        <input type="number" name="par[]" min="1" required class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2 border border-lightgreen focus:ring-2 focus:ring-darkseagreen">
-                    </td>
-                    <td class="py-2 px-4">
-                        <input type="number" name="gbe[]" min="1" required class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2 border border-lightgreen focus:ring-2 focus:ring-darkseagreen">
-                    </td>
-                `;
-                tbody.appendChild(row);
-            }
-
-            table.appendChild(tbody);
-        });
-    </script>
-</body>
+</footer>
+    <script type="module" src="../code/chart.js"></script>
+    <script type="module" src="../code/script.js"></script>
+    <script type="module" src="../code/sendDataToCalc.js"></script></body>
 </html>

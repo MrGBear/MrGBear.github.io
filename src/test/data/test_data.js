@@ -1313,14 +1313,10 @@ const test_data = {
 
 // Format the test data
 for (let i = 0; i < test_data.toTestPlayer.games.length; i++) {
-    const gamestats = {
-        game: test_data.toTestPlayer.games[i],
-        score_differential: 0,
-        stableford: 0,
-        ega: null,
-        whs: null
-    }
-    test_data.toTestPlayer.games[i] = gamestats;
+    test_data.toTestPlayer.games[i].score_differential = 0;
+    test_data.toTestPlayer.games[i].stableford = 0;
+    test_data.toTestPlayer.games[i].ega = null;
+    test_data.toTestPlayer.games[i].whs = null;
 }
 
 // Export the data
@@ -1362,4 +1358,6 @@ class TestData {
     }
 }
 
-window.testData = new TestData();
+export const testdata = new TestData();
+
+

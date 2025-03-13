@@ -1,0 +1,41 @@
+{
+    "player": {
+      "player_id": 1,
+      "player_name": "test",
+      "games": [
+        {
+            "game_id": 1,
+            "course_name": "Green Valley Golf Course",
+            "course_rating": 72.5,
+            "slope_rating": 113,
+            "ppc": 0,
+            "handicap_index": 12.4,
+            "date": "2023-10-15",
+            "score_differenital": 2.8,
+            "stableford": 36,
+            "ega": 11.9,
+            "whs": 12.1,
+            "holes": [
+              {
+                "pos": 1,
+                "hdc": 14,
+                "par": 4,
+                "gbe": 5
+              },
+              {
+                "pos": 2,
+                "hdc": 3,
+                "par": 3,
+                "gbe": 4
+              },
+              {
+                "pos": 3,
+                "hdc": 6,
+                "par": 5,
+                "gbe": 5
+              }
+            ]
+          }
+      ]
+    }
+}
