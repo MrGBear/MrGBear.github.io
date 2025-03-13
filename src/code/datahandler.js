@@ -28,12 +28,20 @@ const dataObject = {
         {
             "user_id": 0,
             "user_name": "Sekretär",
-            "password": "1234"
+            "password": "1234", 
+            "role": "sekretaer" 
         },
         {
             "user_id": 1,
-            "user_name": "Testuser1",
+            "user_name": "Admin",
+            "password": "1234", 
+            "role": "spielführer" 
+        },
+        {
+            "user_id": 2,
+            "user_name": "Spieler",
             "password": "2345",
+            "role": "spieler",
             "games": [
                 {
                     "game_id": 1,
@@ -151,7 +159,8 @@ export class DataHandler{
         let user = {
             user_id: user_id,
             user_name: user_data.user_name,
-            password: user_data.password
+            password: user_data.password,
+            role: user_data.role
         }
         users.push(user);
         this.saveData();
@@ -182,6 +191,7 @@ export class DataHandler{
         if(user_id == null){
             throw new Error("User is not set. Please use the switchUser method to set a user");
         } 
+        console.log(this.json_data.users.find(user => user.user_id == user_id))
         return this.json_data.users.find(user => user.user_id == user_id);
     }
 
