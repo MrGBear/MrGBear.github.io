@@ -1,4 +1,4 @@
-import { backendCalc } from '../../../golf_handicap/src/datahandler.js';
+import { backendCalc } from './datahandler.js';
 
 document.getElementById("number_holes").addEventListener("change", function () {
     const selectedOption = document.getElementById("number_holes").value;
@@ -68,44 +68,11 @@ document.getElementById("number_holes").addEventListener("change", function () {
     table.appendChild(tbody);
 });
 
-// Überprüfung der HDC-Werte
-document.getElementById("calculateHandicap").addEventListener("click", function () {
-    const hdcFields = document.querySelectorAll('input[name="hdc[]"]');
-    const usedHdcValues = [];
-    let isValid = true;
-    /*
-        hdcFields.forEach(field => {
-            const hdcValue = parseInt(field.value);
-
-            if (hdcValue < 1 || hdcValue > 18) {
-                alert("HDC-Wert muss zwischen 1 und 18 liegen.");
-                isValid = false;
-            }
-
-            if (usedHdcValues.includes(hdcValue)) {
-                alert(`Der HDC-Wert ${hdcValue} wurde bereits verwendet. Bitte wähle eine andere Zahl.`);
-                isValid = false;
-            } else {
-                usedHdcValues.push(hdcValue);
-            }
-        });
-    */
-    window.location.href="../../src/html/result.html";
-
-    if (!isValid) {
-        // Fehler wurde gefunden, verhindere das Berechnen
-        return;
-    }
-
-    // Hier kannst du den Code für das Berechnen des Handicaps hinzufügen
-});
-
 document.addEventListener("DOMContentLoaded", function () {
     const loadDataButton = document.getElementById("loadData");
     const modal = document.getElementById("dataModal");
     const closeModalButton = document.getElementById("closeModal");
     const savedGamesList = document.getElementById("savedGamesList");
-    const clearDataButton = document.getElementById("clearData");
     const numberHolesDropdown = document.getElementById("number_holes");
 
     // Standardwert für "number_holes" auf "9_first" setzen
@@ -113,6 +80,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Event Listener für den "Alte Daten laden" Button
     loadDataButton.addEventListener("click", function () {
+        // Get current user
+        const user = JSON.parse(localStorage.getItem("selectedUser"));
+        backendCalc.switchUser(user.id);
         const savedGames = backendCalc.getGames(false); // Spiele aus DataHandler abrufen
 
         savedGamesList.innerHTML = ''; // Liste zurücksetzen
@@ -153,10 +123,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     closeModalButton.addEventListener("click", function () {
         modal.classList.add("hidden");
-    });
-
-    clearDataButton.addEventListener("click", function () {
-        savedGamesList.innerHTML = '<div class="text-center p-4">Keine gespeicherten Spiele gefunden.</div>';
     });
 
     // Funktion zum Speichern der neuen Spieldaten im Backend

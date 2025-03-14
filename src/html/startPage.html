@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Start Page - Handicap</title>
   <script src="../code/style.tailwind.js"></script>
-  <script src="../code/script.js"></script>
   <link rel="icon" href="">
   <script>
     tailwind.config = {
@@ -19,34 +19,42 @@
     }
   </script>
 </head>
+
 <body>
-<header class="bg-white flex text-darkseagreen center px-10 mb-10 w-full top-0 fixed z-50 shadow-md">
-  <img src="../resources/golf_cart.jpg" alt="logo_trial" width="80" height="80">
-  <h1 class="mt-6 ml-10 text-xl">Golf Handicap</h1>
-  <button id="switchUser" class="mt-4 mb-4 usernameDisplay ml-auto bg-darkseagreen text-white px-4 py-2 rounded-lg hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300" onclick="location.href='selectUser.html'"></button>
-</header>
-<main>
-  <section id="startPage" class="pt-24 pb-24 bg-cover bg-fixed bg-center bg-no-repeat bg-[url('../resources/wii.png')] shadow-md">
-    <div class="bg-white rounded-lg ml-40 mr-40">
-      <div class="flex items-center justify-center">
-        <h1 class="mt-4 py-10 text-xl text-center">Willkommen zurück,</h1>
-        <h1 id="name" class="usernameDisplay mt-4 ml-2 py-10 text-xl text-darkseagreen text-center"></h1>
+  <header class="bg-white flex text-darkseagreen center px-10 mb-10 w-full top-0 fixed z-50 shadow-md">
+    <img src="../resources/golf_cart.jpg" alt="logo_trial" width="80" height="80">
+    <h1 class="mt-6 ml-10 text-xl">Golf Handicap</h1>
+    <button id="switchUser"
+      class="mt-4 mb-4 usernameDisplay ml-auto bg-darkseagreen text-white px-4 py-2 rounded-lg hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300"
+      onclick="location.href='selectUser.html'"></button>
+  </header>
+  <main>
+    <section id="startPage"
+      class="pt-24 pb-24 bg-cover bg-fixed bg-center bg-no-repeat bg-[url('../resources/wii.png')] shadow-md">
+      <div class="bg-white rounded-lg ml-40 mr-40">
+        <div class="flex items-center justify-center">
+          <h1 class="mt-4 py-10 text-xl text-center">Willkommen zurück,</h1>
+          <h1 id="name" class="usernameDisplay mt-4 ml-2 py-10 text-xl text-darkseagreen text-center"></h1>
+        </div>
+        <div id="game" class="w-full mb-10 max-w-md"></div>
+        <button type="button" id="toHandicap"
+          class="ml-20 mb-10 text-white bg-darkseagreen hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm sm:w-auto px-5 py-4 text-center w-1/2"
+          onclick="location.href='index.html'">Neue Ergebnisse eintragen</button>
       </div>
-      <div id="game" class="w-full mb-10 max-w-md"></div>
-      <button type="button" id="toHandicap"  class="ml-20 mb-10 text-white bg-darkseagreen hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm sm:w-auto px-5 py-4 text-center w-1/2" onclick="location.href='index.html'">Neue Ergebnisse eintragen</button>
-    </div>
-  </section>
-</main>
+    </section>
+  </main>
 </body>
 <footer class="bg-white flex text-darkseagreen center px-10 py-4 w-full bottom-0 fixed z-50">
   <p>&copy; 2023 Golf Handicap. All rights reserved.</p>
 </footer>
 <script type="module">
-  import { DataHandler } from "../code/datahandler.js";
+  import { backendCalc } from "../code/datahandler.js";
 
   document.addEventListener("DOMContentLoaded", async function () {
-    const calc = new DataHandler();
-    let games = await calc.getGames(); // Falls getGames asynchron ist, benutze await
+    const user = JSON.parse(localStorage.getItem("selectedUser"));
+    backendCalc.switchUser(user.id);
+
+    let games = await backendCalc.getGames(); // Falls getGames asynchron ist, benutze await
     console.log(games); // Überprüfen, ob die Daten korrekt geladen werden
     const divGames = document.getElementById("game");
 
@@ -55,21 +63,6 @@
 
     games.forEach(game => {
       const div = document.createElement("div");
-
-      // HTML-Struktur des Spiels
-      let holesHTML = "";
-
-      // Schleife über jedes Loch im Spiel
-      game.holes.forEach(hole => {
-        holesHTML += `
-            <div class="mt-2 p-2 bg-gray-100 rounded-lg">
-                <p class="text-gray-600"><strong>Pos:</strong> ${hole.pos}</p>
-                <p class="text-gray-600"><strong>HDC:</strong> ${hole.hdc}</p>
-                <p class="text-gray-600"><strong>PAR:</strong> ${hole.par}</p>
-                <p class="text-gray-600"><strong>GPE:</strong> ${hole.gbe}</p>
-            </div>
-        `;
-      });
 
       // Setze die gesamte HTML-Struktur für das Spiel
       div.innerHTML = `
@@ -84,10 +77,9 @@
             <p class="text-gray-600"><strong>Slope Rating:</strong> ${game.slope_rating}</p>
             <p class="text-gray-600"><strong>PPC:</strong> ${game.ppc}</p>
             <p class="text-gray-600"><strong>Stableford:</strong> ${game.stableford}</p>
-            <h2 class="text-m font-bold text-darkseagreen">Holes:</h2>
-            ${holesHTML} <!-- Hier wird die dynamische Liste der Löcher eingefügt -->
         </div>
     `;
+
 
       // Füge das div mit den Spielinformationen zum Container hinzu
       divGames.appendChild(div);
@@ -96,14 +88,13 @@
   });
 
   function displayUsername() {
-    const user = JSON.parse(localStorage.getItem("selectedUser"));
     if (user) {
       document.querySelectorAll(".usernameDisplay").forEach(element => {
         element.textContent = user.name;
       });
     }
   }
-
   document.addEventListener("DOMContentLoaded", displayUsername);
 </script>
+
 </html>

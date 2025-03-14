@@ -7,7 +7,6 @@ const values = [20];
 
 function writeChart(){
     const chartCode = ' xychart-beta\n'
-        + '    title "Golf Handicap"\n'
         + `    x-axis [${xLabels.join(",")}]
 `
         + '    y-axis "Handicap" 0 --> 70\n'

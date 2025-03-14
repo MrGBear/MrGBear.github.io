@@ -52,8 +52,11 @@
 
       button.addEventListener("click", function () {
         localStorage.setItem("selectedUser", JSON.stringify(player));
-        if(player.id == 2) {
+        if(player.role === "sekretaer") {
           window.location.href = "admin.html";
+        }
+        else if (player.role === "spielfuehrer") {
+          window.location.href = "startPage.html";
         }
         else {
           window.location.href = "startPage.html";

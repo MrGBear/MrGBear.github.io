@@ -37,8 +37,8 @@
         <div class="relative">
           <select id="role" class="mr-4 mb-4 block w-full text-sm py-2.5 px-4 text-gray-900 bg-gray-50 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 peer">
             <option value="not_selected" selected>Rolle auswählen</option>
-            <option value="spielführer">Spielführer</option>
-            <option value="sekretär">Sekretär</option>
+            <option value="spielfuehrer">Spielführer</option>
+            <option value="sekretaer">Sekretär</option>
             <option value="spieler">Spieler</option>
           </select>
         </div>
@@ -52,14 +52,18 @@
 </section>
 </body>
 <script type="module">
-  import { backendCalc } from "../code/datahandler.js";
+  import {DataHandler} from "../code/datahandler.js";
+
+  const backendCalc = new DataHandler();
 
   document.getElementById("createUser").addEventListener("click", () => {
     const name = document.getElementById("name").value.trim();
+    const role = document.getElementById("role").value;
 
     if (name) {
-      backendCalc.addUser(name);
-      window.location.href = "selectUser.html";// Weiterleitung zur User-Auswahl
+      backendCalc.addUser({ user_name: name, role: role });
+      console.log(backendCalc.getUsers());
+      window.location.href="selectUser.html";
     } else {
       alert("Bitte gib einen Namen ein.");
     }

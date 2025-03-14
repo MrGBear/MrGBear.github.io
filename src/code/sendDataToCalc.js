@@ -1,9 +1,11 @@
 import { backendCalc } from './datahandler.js';
 
+const calculateHandicap = () => {
+  // Get the current user
+  const user = JSON.parse(localStorage.getItem("selectedUser"));
+  backendCalc.switchUser(user.id);
 
-document.getElementById("calculateHandicap").addEventListener("click", function () {
-  document.getElementById("mermaidContainer").classList.remove("hidden")
-
+  // region:    Get the data
   const player_name = document.getElementById("player_name").value;  // Player name
   const course_name = document.getElementById("course_name").value;  // Course name
   const course_rating = parseFloat(document.getElementById("course_rating").value);  // Course rating
@@ -32,22 +34,29 @@ document.getElementById("calculateHandicap").addEventListener("click", function 
       });
     }
   });
+  // endregion:    Get the data
 
+  // Store the data
   const dataToCalc =
-      {
-        course_name: course_name,
-        course_rating: course_rating,
-        slope_rating: slope_rating,
-        ppc: ppc,
-        handicap_index: handicap_index,
-        date: date,
-        holes: holes
-      }
+  {
+    course_name: course_name,
+    course_rating: course_rating,
+    slope_rating: slope_rating,
+    ppc: ppc,
+    handicap_index: handicap_index,
+    date: date,
+    holes: holes
+  }
 
-
-  console.log(dataToCalc);
+  console.log("Try to store the data", dataToCalc);
 
   backendCalc.addGame(dataToCalc);
 
   console.log("games:" + JSON.stringify(backendCalc.getGames()));
-})
+
+  window.location.href = "../../src/html/result.html";
+}
+
+const btn = document.getElementById("calculateHandicap");
+
+btn.addEventListener("click", calculateHandicap);

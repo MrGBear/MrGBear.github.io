@@ -331,15 +331,20 @@ export const ega_calc = (gamestats, old_ega) => {
  */
 export function calculate_ega(games) {
     let len = games.length
-    let hdci = games[len - 2].ega;
-    if (typeof hole.hdc !== 'number') {
+    let hdci = 54;
+
+    if (len > 1) {
+        hdci = games[len - 2].ega;
+    }
+
+    if (typeof hdci !== 'number') {
         throw new Error('The game before has no calculated value');
     }
 
-    let game = ega_calc(games[len - 1], hdci);
+    let game = ega_calc(games[len - 1], hdci * -1);
 
     let obj = {};
-    obj.ega = game.ega;
-    obj.stableford = game.stable_ford;
+    obj.ega = game.ega * -1;
+    obj.stableford = game.stableford;
     return obj;
 }

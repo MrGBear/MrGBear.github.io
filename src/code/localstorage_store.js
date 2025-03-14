@@ -9,17 +9,17 @@ class DataStore {
     }
 
     /**
-     * 
+     *
      * @returns The data from the localstorage assosiated with this DataStore
      */
     getData() {
         let data;
-        try{
-             data = JSON.parse(localStorage.getItem(storage_key));
+        try {
+            data = JSON.parse(localStorage.getItem(storage_key));
         } catch {
             return null;
         }
-        
+
 
         if (!data) {
             console.log(`Data with the id ${storage_key} was not found in the local storage`);
@@ -29,7 +29,7 @@ class DataStore {
     }
 
     /**
-     * 
+     *
      * @param {*} data The data wanted to be stored
      */
     setData(data) {
@@ -47,14 +47,14 @@ class DataStore {
     }
 
     /**
-     * 
+     *
      * @param {*} validator - Sets the validator function for the inserted data
      */
     setValidator(validator) {
         this.validator = validator;
     }
-    
-    clearstorage(){
+
+    clearstorage() {
         this.setData(undefined);
     }
 }

@@ -5,6 +5,7 @@
 //Config
 import { Storage } from './localstorage_store.js';
 import { calculate_ega } from './ega_handicap.js';
+import { calculateWHS } from "./whs_handicap.js";
 
 //overwrites localstorage function, always uses testdata
 const usetest = false;
@@ -28,20 +29,14 @@ const dataObject = {
         {
             "user_id": 0,
             "user_name": "Sekretär",
-            "password": "1234", 
-            "role": "sekretaer" 
+            "password": "1234",
+            "role": "sekretaer"
         },
         {
             "user_id": 1,
             "user_name": "Admin",
-            "password": "1234", 
-            "role": "spielführer" 
-        },
-        {
-            "user_id": 2,
-            "user_name": "Spieler",
-            "password": "2345",
-            "role": "spieler",
+            "password": "1234",
+            "role": "spielfuehrer",
             "games": [
                 {
                     "game_id": 1,
@@ -87,11 +82,11 @@ const dataObject = {
 
 
 function getData() {
-    if(usetest){
+    if (usetest) {
         return dataObject;
     }
     let data = Storage.getData();
-    if(!data){
+    if (!data) {
         console.log("Using default");
         return dataObject;
     }
@@ -99,27 +94,27 @@ function getData() {
 }
 
 // Export Class for other modules to use
-export class DataHandler{
-    
+export class DataHandler {
+
     //Constructor
-    constructor(){
+    constructor() {
         this.json_data = getData();
         this.current_user = 1;
     }
 
     //return the JSON data Object
-    getJSON(){
+    getJSON() {
         return this.json_data;
     }
-    
-    saveData(){
+
+    saveData() {
         Storage.setData(this.json_data);
     }
 
 
     //Export function, to guarantee deep copy
-    exportObject(data, copy = true){
-        if(copy){
+    exportObject(data, copy = true) {
+        if (copy) {
             return JSON.parse(JSON.stringify(data));
         }
         return data;
@@ -139,20 +134,21 @@ export class DataHandler{
         if (Array.isArray(this.json_data.users)) {
             return this.json_data.users.map(player => ({
                 id: player.user_id,
-                name: player.user_name
+                name: player.user_name,
+                role: player.role
             }));
         } else {
             return [{
                 id: this.json_data.users.user_id,
-                name: this.json_data.users.user_name
+                name: this.json_data.users.user_name,
+                role: this.json_data.users.role
             }];
         }
     }
 
-
     //add a User
     // user_data = {user_name: "Name", password: "Password"}
-    addUser(user_data){
+    addUser(user_data) {
         const users = this.json_data.users;
         const user_id = users.reduce((max, user) => Math.max(max, user.user_id), 0) + 1;
 
@@ -166,10 +162,10 @@ export class DataHandler{
         this.saveData();
     }
 
-    removeUser(user_id){
+    removeUser(user_id) {
         const users = this.json_data.users;
         const index = users.findIndex(user => user.user_id == user_id);
-        if(index != -1){
+        if (index != -1) {
             users.splice(index, 1);
             this.saveData();
             return true;
@@ -180,17 +176,17 @@ export class DataHandler{
     //sets the current player
     //TODO: Passwordcheck
     //TODO: Check if User exists
-    switchUser(id, password = null){
+    switchUser(id, password = null) {
         this.current_user = id;
     }
 
     //Checks if a user is correcktly set, otherwise throws an error
     //Returns the user Data
     //TODO: Check if user exists
-    getUserData(user_id = this.current_user, copy = true){
-        if(user_id == null){
+    getUserData(user_id = this.current_user, copy = true) {
+        if (user_id == null) {
             throw new Error("User is not set. Please use the switchUser method to set a user");
-        } 
+        }
         console.log(this.json_data.users.find(user => user.user_id == user_id))
         return this.json_data.users.find(user => user.user_id == user_id);
     }
@@ -200,41 +196,44 @@ export class DataHandler{
 
     /* Game Management */
 
-    getGames(copy = true){
+    getGames(copy = true) {
         const userData = this.getUserData(undefined, copy);
+        if (userData.games === undefined) {
+            userData.games = [{ ega: 54, whs: 54, game_id: 0 }]
+        }
         return userData.games;
     }
 
 
     //Create a new Game for the current Player
-    addGame(data){
+    addGame(data) {
         //copy Object
         data = this.exportObject(data);
 
         //Asumtion User is correctly set
 
         //Check if gameid in data is set, otherwise create a new one
-        if(!data.game_id){
+        if (!data.game_id) {
             //get game ID
             const games = this.getGames();
             const game_id = games.reduce((max, game) => Math.max(max, game.game_id), 0) + 1;
-            this.getGames(false).push({game_id: game_id});
+            this.getGames(false).push({ game_id: game_id });
             data.game_id = game_id;
         }
 
         return this.modGame(data.game_id, data);
     }
 
-    modGame(game_id, data){
+    modGame(game_id, data) {
         const games = this.getGames(false);
 
         let game = games.find(game => game.game_id == game_id);
-        if(!game){
+        if (!game) {
             return false;
         }
         //Set/update data
-        function setIfExist(key){
-            if(data[key]){
+        function setIfExist(key) {
+            if (data[key]) {
                 game[key] = data[key];
             }
         }
@@ -254,16 +253,16 @@ export class DataHandler{
         return this.exportObject(game);
     }
 
-    loadGame(game_id){  
+    loadGame(game_id) {
         const games = this.getGames();
         const game = games.find(game => game.game_id == game_id);
         return this.exportObject(game);
     }
 
-    removeGame(game_id){
+    removeGame(game_id) {
         const games = this.getGames(false);
         const index = games.findIndex(game => game.game_id == game_id);
-        if(index != -1){
+        if (index != -1) {
             games.splice(index, 1);
             this.saveData();
             return true;
@@ -271,23 +270,26 @@ export class DataHandler{
         return false;
     }
 
-    updateHandicap(){
+    updateHandicap() {
         let games = this.getGames(false);
         //find the index of the changed game, every game after this has to be recalculated
-        games.sort((a, b) => {if(a.date != b.date){return new Date(a.date) - new Date(b.date)} else {return a.game_id - b.game_id}});
+        games.sort((a, b) => { if (a.date != b.date) { return new Date(a.date) - new Date(b.date) } else { return a.game_id - b.game_id } });
         const min_index = games.findIndex(game => !game.whs || !game.ega);
         console.log("min Index:" + min_index);
-        for(let i = min_index; i < games.length; i++){
+        for (let i = min_index; i <= games.length; i++) {
             let subGames = this.exportObject(games.slice(0, i));
-            
-            const ega = calculate_ega(subGames);
-            games[i].ega = ega.ega;
-            games[i].stableford = ega.stableford;
 
-            const whs = calculateWHS(subGames);
-            games[i].whs = whs.whs; 
-            games[i].score_differential = whs.score_differential;
-        } 
+            if (subGames.length != 1) {
+                const ega = calculate_ega(subGames);
+                games[i - 1].ega = ega.ega;
+                games[i - 1].stableford = ega.stableford;
+
+                const whs = calculateWHS(subGames);
+                games[i - 1].whs = whs.whs;
+                games[i - 1].score_differential = whs.score_differential;
+            }
+
+        }
         this.saveData();
     }
 }

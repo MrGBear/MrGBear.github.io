@@ -1,4 +1,4 @@
-import { backendCalc } from "'../../../golf_handicap/src/datahandler.js";
+import { backendCalc } from "./datahandler.js";
 
 document.addEventListener("DOMContentLoaded", function () {
     const gameListContainer = document.getElementById("gameList");

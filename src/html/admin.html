@@ -31,8 +31,7 @@
         <h1 class="mt-4 py-10 text-xl text-center">Willkommen zur Scorecard-Verwaltung, </h1>
         <h1 id="name" class="usernameDisplay mt-4 ml-2 py-10 text-xl text-darkseagreen text-center"></h1>
       </div>
-      <div id="userButtons" class="ml-20 mr-20 mb-10"></div>
-      <button type="button" id="toHandicap"  class="ml-20 mb-10 text-white bg-darkseagreen hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm sm:w-auto px-5 py-4 text-center w-1/2" onclick="location.href='index.html'">Neue Ergebnisse eintragen</button>
+      <div id="userButtons" class="ml-20 mr-20 mb-10 pb-10"></div>
     </div>
   </section>
 </main>
@@ -51,44 +50,40 @@
     userButtonCon.innerHTML = "";
 
     players.forEach(player => {
-      const button = document.createElement("button");
-      button.textContent = player.name;
-      button.className = "w-full text-white bg-darkseagreen hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mt-2";
+      if(player.role === "spielfuehrer" || player.role === "spieler") {
+        const button = document.createElement("button");
+        button.textContent = player.name;
+        button.className = "w-full text-white bg-darkseagreen hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mt-2";
 
-      button.addEventListener("click", function () {
-        localStorage.setItem("selectedUser", JSON.stringify(player));
-        if (player.id === 2) {
-          window.location.href = "admin.html";
-        } else {
-          showGamesPopup(player.id);
-        }
-      });
+        button.addEventListener("click", function () {
+          localStorage.setItem("selectedUser", JSON.stringify(player));
+          showGamesPopup(player.id, player.name);
+        });
 
-      userButtonCon.appendChild(button);
+        userButtonCon.appendChild(button);
+      }
+
     });
   });
 
-  function showGamesPopup(playerId) {
+  function showGamesPopup(playerId, name) {
     const calc = new DataHandler();
-    const playerData = calc.getGames(playerId);
+    const playerData = calc.getGames(playerId); // Spieler-ID übergeben
 
-    let popupHTML = `<div class="fixed inset-0 bg-gray-800 bg-opacity-75 flex justify-center items-center z-50">
+    console.log(calc.getGames(playerId));
+
+    if (!playerData || playerData.length === 0) {
+      alert("Keine Spiele gefunden.");
+      return;
+    }
+
+    let popupHTML = `<a href="scorecard_drucken.html">
+        <div class="fixed inset-0 bg-gray-800 bg-opacity-75 flex justify-center items-center z-50">
         <div class="bg-white p-6 rounded-lg shadow-lg max-w-2xl w-full">
-            <h2 class="text-lg font-bold text-darkseagreen mb-4">${playerData.name}'s Scorecards</h2>
+            <h2 class="text-lg font-bold text-darkseagreen mb-4">${name}'s Scorecards</h2>
             <div class="max-h-80 overflow-y-auto">`;
 
-    playerData.games.forEach(game => {
-      let holesHTML = "";
-      game.holes.forEach(hole => {
-        holesHTML += `
-                <div class="p-2 bg-gray-100 rounded-lg">
-                    <p class="text-gray-600"><strong>Pos:</strong> ${hole.pos}</p>
-                    <p class="text-gray-600"><strong>HDC:</strong> ${hole.hdc}</p>
-                    <p class="text-gray-600"><strong>PAR:</strong> ${hole.par}</p>
-                    <p class="text-gray-600"><strong>GPE:</strong> ${hole.gbe}</p>
-                </div>`;
-      });
-
+    playerData.forEach(game => {
       popupHTML += `<div class="bg-white shadow-md rounded-lg p-4 mb-4 border border-gray-200">
             <h2 class="text-lg font-bold text-darkseagreen">${game.course_name}</h2>
             <p class="text-gray-600"><strong>Datum:</strong> ${game.date}</p>
@@ -100,13 +95,13 @@
             <p class="text-gray-600"><strong>Slope Rating:</strong> ${game.slope_rating}</p>
             <p class="text-gray-600"><strong>PPC:</strong> ${game.ppc}</p>
             <p class="text-gray-600"><strong>Stableford:</strong> ${game.stableford}</p>
-            <h2 class="text-m font-bold text-darkseagreen">Holes:</h2>
-            ${holesHTML}
-        </div>`;
+
+        </div>
+      </a>`
     });
 
     popupHTML += `</div>
-        <button id="closePopup" class="mt-4 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Schließen</button>
+        <button id="closePopup" class="mt-4 bg-gray-400 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">Schließen</button>
         </div>
     </div>`;
 
@@ -118,6 +113,7 @@
       popupContainer.remove();
     });
   }
+
 
   function displayUsername() {
     const user = JSON.parse(localStorage.getItem("selectedUser"));
