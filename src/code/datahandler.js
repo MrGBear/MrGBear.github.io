@@ -172,7 +172,7 @@ export class DataHandler {
             user_name: user_data.user_name,
             password: user_data.password,
             role: user_data.role,
-            e_mail: user_data.email
+            email: user_data.email
         }
         users.push(user);
         this.saveData();
