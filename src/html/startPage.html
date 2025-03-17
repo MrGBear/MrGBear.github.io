@@ -1,9 +1,12 @@
+<!-- view for player about previous pages -->
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
   <meta charset="UTF-8">
   <title>Start Page - Handicap</title>
+  <!-- tailwind - import -->
   <script src="../code/style.tailwind.js"></script>
   <link rel="icon" href="">
   <script>
@@ -19,11 +22,11 @@
     }
   </script>
 </head>
-
 <body>
   <header class="bg-white flex text-darkseagreen center px-10 mb-10 w-full top-0 fixed z-50 shadow-md">
     <img src="../resources/golf_cart.jpg" alt="logo_trial" width="80" height="80">
     <h1 class="mt-6 ml-10 text-xl">Golf Handicap</h1>
+    <!-- can again change User -->
     <button id="switchUser"
       class="mt-4 mb-4 usernameDisplay ml-auto bg-darkseagreen text-white px-4 py-2 rounded-lg hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300"
       onclick="location.href='selectUser.html'"></button>
@@ -32,14 +35,20 @@
     <section id="startPage"
       class="pt-24 pb-24 bg-cover bg-fixed bg-center bg-no-repeat bg-[url('../resources/wii.png')] shadow-md">
       <div class="bg-white rounded-lg ml-40 mr-40">
+        <!-- Welcome User -->
         <div class="flex items-center justify-center">
           <h1 class="mt-4 py-10 text-xl text-center">Willkommen zurück,</h1>
           <h1 id="name" class="usernameDisplay mt-4 ml-2 py-10 text-xl text-darkseagreen text-center"></h1>
         </div>
-        <div id="game" class="w-full mb-10 max-w-md"></div>
+        <div class="items-center justify-center mb-4">
+          <h2 class="text-center">Du hast alle Fähigkeiten eines Golfers</h2>
+        </div>
+        <!-- game will be displayed, happening in js part, has to be in different file -->
+        <div id="game" class="w-full mt-4 mb-10 max-w-md"></div>
+        <!-- button directs to index where all data can be put -->
         <button type="button" id="toHandicap"
           class="ml-20 mb-10 text-white bg-darkseagreen hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm sm:w-auto px-5 py-4 text-center w-1/2"
-          onclick="location.href='index.html'">Neue Ergebnisse eintragen</button>
+          onclick="location.href='input_data.html'">Neue Ergebnisse eintragen</button>
       </div>
     </section>
   </main>
@@ -47,54 +56,7 @@
 <footer class="bg-white flex text-darkseagreen center px-10 py-4 w-full bottom-0 fixed z-50">
   <p>&copy; 2023 Golf Handicap. All rights reserved.</p>
 </footer>
-<script type="module">
-  import { backendCalc } from "../code/datahandler.js";
-
-  document.addEventListener("DOMContentLoaded", async function () {
-    const user = JSON.parse(localStorage.getItem("selectedUser"));
-    backendCalc.switchUser(user.id);
-
-    let games = await backendCalc.getGames(); // Falls getGames asynchron ist, benutze await
-    console.log(games); // Überprüfen, ob die Daten korrekt geladen werden
-    const divGames = document.getElementById("game");
-
-    // Vorherige Spiele entfernen
-    divGames.innerHTML = "";
-
-    games.forEach(game => {
-      const div = document.createElement("div");
-
-      // Setze die gesamte HTML-Struktur für das Spiel
-      div.innerHTML = `
-        <div class="ml-20 bg-white shadow-md rounded-lg p-4 mb-4 border border-gray-200">
-            <h2 class="text-lg font-bold text-darkseagreen">${game.course_name}</h2>
-            <p class="text-gray-600"><strong>Datum:</strong> ${game.date}</p>
-            <p class="text-gray-600"><strong>EGA:</strong> ${game.ega}</p>
-            <p class="text-gray-600"><strong>WHS:</strong> ${game.whs}</p>
-            <p class="text-gray-600"><strong>Score Differential:</strong> ${game.score_differenital}</p>
-            <p class="text-gray-600"><strong>Handicap Index:</strong> ${game.handicap_index}</p>
-            <p class="text-gray-600"><strong>Course Rating:</strong> ${game.course_rating}</p>
-            <p class="text-gray-600"><strong>Slope Rating:</strong> ${game.slope_rating}</p>
-            <p class="text-gray-600"><strong>PPC:</strong> ${game.ppc}</p>
-            <p class="text-gray-600"><strong>Stableford:</strong> ${game.stableford}</p>
-        </div>
-    `;
-
-
-      // Füge das div mit den Spielinformationen zum Container hinzu
-      divGames.appendChild(div);
-    });
-
-  });
-
-  function displayUsername() {
-    if (user) {
-      document.querySelectorAll(".usernameDisplay").forEach(element => {
-        element.textContent = user.name;
-      });
-    }
-  }
-  document.addEventListener("DOMContentLoaded", displayUsername);
-</script>
-
+<!-- script import -->
+<script type="module" src="../code/displayUsername.js"></script>
+<script type="module" src="../code/startPage.js"></script>
 </html>

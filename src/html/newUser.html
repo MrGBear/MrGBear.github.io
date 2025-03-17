@@ -1,8 +1,11 @@
+<!-- new User page - a new User can be added with user_name, e-mail and role -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>New User</title>
+  <!-- tailwind - import -->
   <script src="../code/style.tailwind.js"></script>
   <link rel="icon" href="">
   <script>
@@ -26,23 +29,28 @@
         <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-600 md:text-2xl dark:text-white">
           User erstellen
         </h1>
+        <!-- name has to be filed and handled in input.js -->
         <div class="relative">
-          <input type="text" name="name" id="name" class="mt-4 mb-4 block rounded-t-lg px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-50 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />
+          <input type="text" name="name" id="name" class="mt-4 mb-4 block rounded-t-lg px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-50 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required/>
           <label for="name" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-4 origin-[0] start-2.5 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4">Name</label>
         </div>
+        <!-- email has can be filed, not required -->
         <div class="relative">
-          <input type="text" name="email" id="email" class="mt-4 mb-4 block rounded-t-lg px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-50 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />
+          <input type="text" name="email" id="email" class="mt-4 mb-4 block rounded-t-lg px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-50 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required/>
           <label for="email" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-4 origin-[0] start-2.5 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4">E-Mail</label>
         </div>
+        <!-- role is required and separates between Spielführer, Sekretär und Spieler and handeled in line 72 -->
         <div class="relative">
-          <select id="role" class="mr-4 mb-4 block w-full text-sm py-2.5 px-4 text-gray-900 bg-gray-50 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 peer">
-            <option value="not_selected" selected>Rolle auswählen</option>
+          <select id="role" class="mr-4 mb-4 block w-full text-sm py-2.5 px-4 text-gray-900 bg-gray-50 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 peer" required>
+            <option value="not_selected" disabled selected>Rolle auswählen</option>
             <option value="spielfuehrer">Spielführer</option>
             <option value="sekretaer">Sekretär</option>
             <option value="spieler">Spieler</option>
           </select>
         </div>
+        <!-- new User will be created and directs to selectUser where all Users are printed -->
         <button id="createUser" class="w-full text-white bg-darkseagreen hover:bg-darkseagreen focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Sign in</button>
+        <!-- can also directly switch to selectUser when User is already created -->
         <p class="text-sm font-light text-gray-500 dark:text-gray-400">
           Du hast bereits einen User? <a href="selectUser.html" class="font-medium text-primary-600 hover:underline dark:text-primary-500">Jetzt aussuchen</a>
         </p>
@@ -51,23 +59,7 @@
   </div>
 </section>
 </body>
-<script type="module">
-  import {DataHandler} from "../code/datahandler.js";
-
-  const backendCalc = new DataHandler();
-
-  document.getElementById("createUser").addEventListener("click", () => {
-    const name = document.getElementById("name").value.trim();
-    const role = document.getElementById("role").value;
-
-    if (name) {
-      backendCalc.addUser({ user_name: name, role: role });
-      console.log(backendCalc.getUsers());
-      window.location.href="selectUser.html";
-    } else {
-      alert("Bitte gib einen Namen ein.");
-    }
-  });
-</script>
+<!-- script import -->
+<script type="module" src="../code/newUser.js"></script>
 </html>
 

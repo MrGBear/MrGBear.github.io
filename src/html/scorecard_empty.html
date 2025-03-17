@@ -1,0 +1,141 @@
+<!-- leere Scorecard von einem Spieler drucken -->
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Golf Scorecard</title>
+    <script src="../code/style.tailwind.js"></script>
+</head>
+<body class="bg-gray-100 p-6 text-center">
+<div class="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-md">
+    <div id="infos_spieler"></div>
+
+    <div class="overflow-x-auto">
+        <table class="w-full border-collapse border border-gray-300">
+            <thead>
+            <tr class="bg-gray-200">
+                <th class="border border-gray-300 p-2" contenteditable="true">Loch</th>
+                <th class="border border-gray-300 p-2" contenteditable="true">1</th>
+                <th class="border border-gray-300 p-2" contenteditable="true">2</th>
+                <th class="border border-gray-300 p-2" contenteditable="true">3</th>
+                <th class="border border-gray-300 p-2" contenteditable="true">4</th>
+                <th class="border border-gray-300 p-2" contenteditable="true">5</th>
+                <th class="border border-gray-300 p-2" contenteditable="true">6</th>
+                <th class="border border-gray-300 p-2" contenteditable="true">7</th>
+                <th class="border border-gray-300 p-2" contenteditable="true">8</th>
+                <th class="border border-gray-300 p-2" contenteditable="true">9</th>
+                <th class="border border-gray-300 p-2" contenteditable="true">10</th>
+                <th class="border border-gray-300 p-2" contenteditable="true">11</th>
+                <th class="border border-gray-300 p-2" contenteditable="true">12</th>
+                <th class="border border-gray-300 p-2" contenteditable="true">13</th>
+                <th class="border border-gray-300 p-2" contenteditable="true">14</th>
+                <th class="border border-gray-300 p-2" contenteditable="true">15</th>
+                <th class="border border-gray-300 p-2" contenteditable="true">16</th>
+                <th class="border border-gray-300 p-2" contenteditable="true">17</th>
+                <th class="border border-gray-300 p-2" contenteditable="true">18</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td class="border border-gray-300 p-2">Par</td>
+                <td class="border border-gray-300 p-2" contenteditable="true"></td>
+                <td class="border border-gray-300 p-2" contenteditable="true"></td>
+                <td class="border border-gray-300 p-2" contenteditable="true"></td>
+                <td class="border border-gray-300 p-2" contenteditable="true"></td>
+                <td class="border border-gray-300 p-2" contenteditable="true"></td>
+                <td class="border border-gray-300 p-2" contenteditable="true"></td>
+                <td class="border border-gray-300 p-2" contenteditable="true"></td>
+                <td class="border border-gray-300 p-2" contenteditable="true"></td>
+                <td class="border border-gray-300 p-2" contenteditable="true"></td>
+                <td class="border border-gray-300 p-2" contenteditable="true"></td>
+                <td class="border border-gray-300 p-2" contenteditable="true"></td>
+                <td class="border border-gray-300 p-2" contenteditable="true"></td>
+                <td class="border border-gray-300 p-2" contenteditable="true"></td>
+                <td class="border border-gray-300 p-2" contenteditable="true"></td>
+                <td class="border border-gray-300 p-2" contenteditable="true"></td>
+                <td class="border border-gray-300 p-2" contenteditable="true"></td>
+                <td class="border border-gray-300 p-2" contenteditable="true"></td>
+                <td class="border border-gray-300 p-2" contenteditable="true"></td>
+            </tr>
+            <tr>
+                <td class="border border-gray-300 p-2">Schläge</td>
+                <td class="border border-gray-300 p-2" contenteditable="true"></td>
+                <td class="border border-gray-300 p-2" contenteditable="true"></td>
+                <td class="border border-gray-300 p-2" contenteditable="true"></td>
+                <td class="border border-gray-300 p-2" contenteditable="true"></td>
+                <td class="border border-gray-300 p-2" contenteditable="true"></td>
+                <td class="border border-gray-300 p-2" contenteditable="true"></td>
+                <td class="border border-gray-300 p-2" contenteditable="true"></td>
+                <td class="border border-gray-300 p-2" contenteditable="true"></td>
+                <td class="border border-gray-300 p-2" contenteditable="true"></td>
+                <td class="border border-gray-300 p-2" contenteditable="true"></td>
+                <td class="border border-gray-300 p-2" contenteditable="true"></td>
+                <td class="border border-gray-300 p-2" contenteditable="true"></td>
+                <td class="border border-gray-300 p-2" contenteditable="true"></td>
+                <td class="border border-gray-300 p-2" contenteditable="true"></td>
+                <td class="border border-gray-300 p-2" contenteditable="true"></td>
+                <td class="border border-gray-300 p-2" contenteditable="true"></td>
+                <td class="border border-gray-300 p-2" contenteditable="true"></td>
+                <td class="border border-gray-300 p-2" contenteditable="true"></td>
+            </tr>
+            <tr>
+                <td class="border border-gray-300 p-2">Punkte</td>
+                <td class="border border-gray-300 p-2" contenteditable="true"></td>
+                <td class="border border-gray-300 p-2" contenteditable="true"></td>
+                <td class="border border-gray-300 p-2" contenteditable="true"></td>
+                <td class="border border-gray-300 p-2" contenteditable="true"></td>
+                <td class="border border-gray-300 p-2" contenteditable="true"></td>
+                <td class="border border-gray-300 p-2" contenteditable="true"></td>
+                <td class="border border-gray-300 p-2" contenteditable="true"></td>
+                <td class="border border-gray-300 p-2" contenteditable="true"></td>
+                <td class="border border-gray-300 p-2" contenteditable="true"></td>
+                <td class="border border-gray-300 p-2" contenteditable="true"></td>
+                <td class="border border-gray-300 p-2" contenteditable="true"></td>
+                <td class="border border-gray-300 p-2" contenteditable="true"></td>
+                <td class="border border-gray-300 p-2" contenteditable="true"></td>
+                <td class="border border-gray-300 p-2" contenteditable="true"></td>
+                <td class="border border-gray-300 p-2" contenteditable="true"></td>
+                <td class="border border-gray-300 p-2" contenteditable="true"></td>
+                <td class="border border-gray-300 p-2" contenteditable="true"></td>
+                <td class="border border-gray-300 p-2" contenteditable="true"></td>
+            </tr>
+            <tr>
+                <td class="border border-gray-300 p-2">HDC</td>
+                <td class="border border-gray-300 p-2" contenteditable="true"></td>
+                <td class="border border-gray-300 p-2" contenteditable="true"></td>
+                <td class="border border-gray-300 p-2" contenteditable="true"></td>
+                <td class="border border-gray-300 p-2" contenteditable="true"></td>
+                <td class="border border-gray-300 p-2" contenteditable="true"></td>
+                <td class="border border-gray-300 p-2" contenteditable="true"></td>
+                <td class="border border-gray-300 p-2" contenteditable="true"></td>
+                <td class="border border-gray-300 p-2" contenteditable="true"></td>
+                <td class="border border-gray-300 p-2" contenteditable="true"></td>
+                <td class="border border-gray-300 p-2" contenteditable="true"></td>
+                <td class="border border-gray-300 p-2" contenteditable="true"></td>
+                <td class="border border-gray-300 p-2" contenteditable="true"></td>
+                <td class="border border-gray-300 p-2" contenteditable="true"></td>
+                <td class="border border-gray-300 p-2" contenteditable="true"></td>
+                <td class="border border-gray-300 p-2" contenteditable="true"></td>
+                <td class="border border-gray-300 p-2" contenteditable="true"></td>
+                <td class="border border-gray-300 p-2" contenteditable="true"></td>
+                <td class="border border-gray-300 p-2" contenteditable="true"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    <div class="my-4 text-xl font-bold">
+        Gesamtschläge: <span id="gesamt-schlaege-mitte"></span>
+    </div>
+    <div class="my-4 text-xl font-bold">
+        Gesamtpunkte: <span id="gesamt-punkte-mitte"></span>
+    </div>
+</div>
+
+<button id="druck-button_empty" onclick="druckeEmptySeite()" class="bg-blue-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-600 mt-4">Drucken</button>
+<script src="../code/scorecard_empty.js"></script>
+</body>
+</html>

@@ -1,10 +1,19 @@
+<!-- volle scorecard vom selectem Spiel drucken -->
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Golf Scorecard</title>
+    <script src="../code/style.tailwind.js"></script>
 </head>
-<body>
+<body class="bg-gray-100 p-6 text-center">
+<div class="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-md">
+    <div id="scorecard"></div>
 
+</div>
+<button id="druck-button" onclick="druckeSeite()" class="bg-blue-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-600 mt-4">Drucken</button>
+<script src="../code/scorecard_drucken.js"></script>
 </body>
 </html>

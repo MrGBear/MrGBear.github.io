@@ -1,3 +1,4 @@
+// validation --> benutzen wir das schon oder nur für backend
 
 function validatePlayer(player) {
     if (typeof player.player_id !== 'number') {

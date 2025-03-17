@@ -1,9 +1,12 @@
+<!-- result page - all results are displayed here as well as a graph for a grphliche Übersicht -->
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
   <meta charset="UTF-8">
   <title>Result - Handicap</title>
+  <!-- tailwind - import -->
   <script src="../code/style.tailwind.js"></script>
   <link rel="icon" href="">
   <script>
@@ -26,40 +29,43 @@
       <img src="../resources/golf_cart.jpg" alt="logo_trial" width="80" height="80">
       <h1 class="mt-6 ml-10 text-xl">Golf Handicap</h1>
     </a>
+    <!-- Switch User -->
     <button id="switchUser"
       class="mt-4 mb-4 usernameDisplay ml-auto bg-darkseagreen text-white px-4 py-2 rounded-lg hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300"
       onclick="location.href='selectUser.html'"></button>
   </header>
-
   <main>
-    <section id="input_handicap"
+    <section id="result_handicap"
       class="pt-24 pb-24 bg-cover bg-fixed bg-center bg-no-repeat bg-[url('../resources/wii.png')] shadow-md">
       <div class="bg-white rounded-lg ml-40 mr-40 ">
         <div class="flex">
+          <!-- goes back to input page -->
           <a href="javascript:history.back()" class="back-arrow">
             <img src="../resources/arrow.png" alt="logo_trial" width="40" height="40" class="ml-6 py-4">
           </a>
           <h2 class="pt-6 ml-10 mb-4 text-xl text-darkseagreen">Ergebnisse</h2>
         </div>
-        <!-- Platzhalter für WHS und EGA Berechnungsarten -->
+        <!-- Shows result for whs handicap number -->
         <div class="flex justify-center gap-80 mb-6">
           <div class="flex-1 max-w-xs">
             <label for="whs" class="block text-darkseagreen text-xl font-bold mb-2">WHS Handicap</label>
             <div id="whs"
               class="bg-lightgreen p-6 text-darkseagreen text-3xl font-semibold rounded-lg shadow-md text-center">
             </div>
+            <!-- shows graph of development of whs handicap -->
             <div class=" justify-between mt-10 mb-6">
               <div id="mermaidContainerWHS" class="mermaid">
                 <canvas id="whsChart"></canvas>
               </div>
             </div>
           </div>
-
+          <!-- Shows result for ega handicap number -->
           <div class="flex-1 max-w-xs">
             <label for="ega" class="block text-darkseagreen text-xl font-bold mb-2">EGA Handicap</label>
             <div id="ega"
               class="bg-lightgreen p-6 text-darkseagreen text-3xl font-semibold rounded-lg shadow-md text-center">
             </div>
+            <!-- shows graph of development of ega handicap -->
             <div class="justify-between mt-10 mb-6">
               <div id="mermaidContainerEGA" class=" mermaid">
                 <canvas id="egaChart"></canvas>
@@ -68,49 +74,13 @@
 
           </div>
         </div>
-
-        <!-- Beste und schlechteste Handicap -->
-        <div id="bestWorstHandicap" class="ml-6 py-10 text-darkseagreen text-lg font-semibold">
-          <p><span id="bestHandicap">Bestes Handicap: Noch nicht berechnet</span></p>
-          <p><span id="worstHandicap">Schlechtestes Handicap: Noch nicht berechnet</span></p>
-        </div>
       </div>
     </section>
   </main>
-
   <footer class="bg-white flex text-darkseagreen center px-10 py-4 w-full bottom-0 fixed z-50">
     <p>&copy; 2023 Golf Handicap. All rights reserved.</p>
   </footer>
-
+  <!-- script import -->
   <script type="module" src="../code/chart.js"></script>
-  <script type="module">
-    import { backendCalc } from "../code/datahandler.js";
-
-    // Get the user data
-    const user = JSON.parse(localStorage.getItem("selectedUser"));
-    backendCalc.switchUser(user.id);
-    const games = backendCalc.getGames();
-
-    document.addEventListener("DOMContentLoaded", function () {
-      if (games.whs && games.ega) {
-        document.getElementById('whs').textContent = games[length - 1].whs;
-        document.getElementById('ega').textContent = games[length - 1].ega;
-      }
-      else {
-
-      }
-    });
-
-    function displayUsername() {
-      if (user) {
-        document.querySelectorAll(".usernameDisplay").forEach(element => {
-          element.textContent = user.name;
-        });
-      }
-    }
-
-    document.addEventListener("DOMContentLoaded", displayUsername);
-  </script>
 </body>
-
 </html>

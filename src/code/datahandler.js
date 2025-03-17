@@ -24,6 +24,7 @@ const default_value = {
     ]
 };
 
+//DataObject which is filled with all Data about User, games and handicaps
 const dataObject = {
     "users": [
         {
@@ -34,9 +35,9 @@ const dataObject = {
         },
         {
             "user_id": 1,
-            "user_name": "Admin",
+            "user_name": "Golfprofi",
             "password": "1234",
-            "role": "spielfuehrer",
+            "role": "spieler",
             "games": [
                 {
                     "game_id": 1,
@@ -76,11 +77,25 @@ const dataObject = {
         }
     ],
     "courses": [
-
+        {
+            "id": 101,
+            "name": "Green Valley Golf Course",
+            "rating": 72.5
+        },
+        {
+            "id": 102,
+            "name": "Sunny Hills Golf Club",
+            "rating": 71.2
+        },
+        {
+            "id": 103,
+            "name": "Mountain View Golf",
+            "rating": 73.0
+        }
     ]
 };
 
-
+// gets DataObject
 function getData() {
     if (usetest) {
         return dataObject;
@@ -205,6 +220,14 @@ export class DataHandler {
     }
 
 
+    //new because all courses have to be selected
+    getCourses(copy = true) {
+        const courses = this.json_data.courses;
+        console.log(courses)
+        return copy ? this.exportObject(courses) : courses;
+    }
+
+
     //Create a new Game for the current Player
     addGame(data) {
         //copy Object
@@ -288,12 +311,10 @@ export class DataHandler {
                 games[i - 1].whs = whs.whs;
                 games[i - 1].score_differential = whs.score_differential;
             }
-
         }
         this.saveData();
     }
 }
-
 
 //EXPORT
 export const backendCalc = new DataHandler();
