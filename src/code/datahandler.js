@@ -172,7 +172,9 @@ export class DataHandler {
             user_name: user_data.user_name,
             password: user_data.password,
             role: user_data.role,
-            email: user_data.email
+            email: user_data.email,
+            whs: 54,
+            ega: 54
         }
         users.push(user);
         this.saveData();
@@ -311,7 +313,14 @@ export class DataHandler {
                 const whs = calculateWHS(subGames);
                 games[i - 1].whs = whs.whs;
                 games[i - 1].score_differential = whs.score_differential;
+                //set whs and ega in the player data for the last game
+                if(i === games.length){
+                    let userData = this.getUserData(undefined, false);
+                    userData.whs = whs;
+                    userData.ega = ega;
+                }
             }
+
         }
         this.saveData();
     }
