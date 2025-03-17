@@ -2,12 +2,12 @@
 document.addEventListener("DOMContentLoaded", function() {
     // Den URL-Parameter abfragen
     const urlParams = new URLSearchParams(window.location.search);
-    const gameDataString = urlParams.get('selectedCourse');
-    const name = urlParams.get('username');
+    const gameDataString = urlParams.get('course');
+    const name = urlParams.get('name');
 
-    if (gameDataString && name) {
+    if (gameDataString != null && name != null) {
         // Die Daten wieder in ein Objekt umwandeln
-        const selectedCourse = JSON.parse(decodeURIComponent(gameDataString));
+        const selectedCourse = decodeURIComponent(gameDataString);
         const name = decodeURIComponent(urlParams.get('name'));
         console.log(name);
         displayEmptyScorecard(selectedCourse, name);

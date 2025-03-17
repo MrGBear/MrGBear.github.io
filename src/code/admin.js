@@ -47,7 +47,7 @@ function showGamesPopup(id, name) {
     let popupHTML = `
         <div class="fixed inset-0 bg-gray-800 bg-opacity-75 flex justify-center items-center z-50">
             <div class="bg-white p-6 rounded-lg shadow-lg max-w-2xl w-full">
-                <h2 class="text-lg font-bold text-darkseagreen mb-4">${name}'s Scorecards</h2>
+                <h2 id="nameH2" class="text-lg font-bold text-darkseagreen mb-4">${name}'s Scorecards</h2>
                 <div class="max-h-80 overflow-y-auto">`;
 
     // each game is printed if defined
@@ -156,7 +156,8 @@ function showGamesPopup(id, name) {
     // Event-Listener für 'chooseCourse' Button hinzufügen
     document.querySelectorAll(".chooseCourse").forEach(button => {
         button.addEventListener("click", function () {
-            showCourseSelectionPopup();
+            let name = document.getElementById("nameH2").innerHTML.split("'");
+            showCourseSelectionPopup(name[0]);
         });
     });
 }
