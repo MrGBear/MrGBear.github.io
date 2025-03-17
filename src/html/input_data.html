@@ -1,0 +1,124 @@
+<!-- input page -- alle Daten für die Berechnungen werden eingetragen und gespeichert, Page für Golfer -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Golf Handicap</title>
+    <!-- tailwind - import -->
+    <script src="../code/style.tailwind.js"></script>
+    <link rel="icon" href="">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        darkseagreen: '#8FBC8F',
+                        lightgreen: '#C5D9C5'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+<header class="bg-white flex text-darkseagreen center px-10 mb-10 w-full top-0 fixed z-50 shadow-md">
+    <a href="startPage.html" class="flex">
+        <img src="../resources/golf_cart.jpg" alt="logo_trial" width="80" height="80">
+        <h1 class="mt-6 ml-10 text-xl">Golf Handicap</h1>
+    </a>
+    <!-- switch User -->
+    <button id="switchUser" class="mt-4 mb-4 usernameDisplay ml-auto bg-darkseagreen text-white px-4 py-2 rounded-lg hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300" onclick="location.href='selectUser.html'"></button>
+</header>
+<main>
+    <section id="input_handicap" class="pt-24 pb-24 bg-cover bg-fixed bg-center bg-no-repeat bg-[url('../resources/wii.png')] shadow-md">
+        <div class="bg-white rounded-lg ml-40 mr-40 ">
+            <div class="flex">
+                <!-- go back a page, so start page or admin -->
+                <a href="javascript:history.back()" class="back-arrow">
+                    <img src="../resources/arrow.png" alt="logo_trial" width="40" height="40" class="ml-6 py-4">
+                </a>
+                <h2 class="pt-6 ml-10 mb-4 text-xl text-darkseagreen">Eingabe</h2>
+            </div>
+            <!-- add Data for golf game, all are required accept cba -->
+            <div class="flex gap-4">
+                <div class="w-1/2">
+                    <!-- player name -->
+                    <div class="relative">
+                        <input type="text" id="player_name" class="ml-4 mt-4 mb-4 block rounded-t-lg px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-50 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required/>
+                        <label for="player_name" class="ml-4 absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-4 origin-[0] start-2.5 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4">Player name</label>
+                    </div>
+                    <!-- course name -->
+                    <div class="relative">
+                        <input type="text" id="course_name" class="ml-4 mt-4 mb-4 block rounded-t-lg px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-50 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required/>
+                        <label for="course_name" class="ml-4 absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-4 origin-[0] start-2.5 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4">Course name</label>
+                    </div>
+                    <!-- course rating -->
+                    <div class="relative">
+                        <input type="number" id="course_rating" class="ml-4 mt-4 mb-4 block rounded-t-lg px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-50 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required/>
+                        <label for="course_rating" class="ml-4 absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-4 origin-[0] start-2.5 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4">Slope rating</label>
+                    </div>
+                    <!-- slope rating -->
+                    <div class="relative">
+                        <input type="number" id="slope_rating" class="ml-4 mt-4 mb-4 block rounded-t-lg px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-50 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required/>
+                        <label for="slope_rating" class="ml-4 absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-4 origin-[0] start-2.5 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4">Course rating</label>
+                    </div>
+                    <!-- ppc -->
+                    <div class="relative">
+                        <input type="number" id="ppc" class="ml-4 mt-4 mb-4 block rounded-t-lg px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-50 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required/>
+                        <label for="ppc" class="ml-4 absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-4 origin-[0] start-2.5 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4">PPC</label>
+                    </div>
+                    <!-- handicap index -->
+                    <div class="relative">
+                        <input type="number" id="handycap_index" class="ml-4 mt-4 mb-4 block rounded-t-lg px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-50 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required/>
+                        <label for="handycap_index" class="ml-4 absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-4 origin-[0] start-2.5 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4">Handicap index</label>
+                    </div>
+                    <!-- date -->
+                    <div class="relative">
+                        <input type="date" id="date" class="ml-4 mt-4 mb-4 block rounded-t-lg px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-50 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required/>
+                        <label for="date" class="ml-4 absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-4 origin-[0] start-2.5 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4">Datum</label>
+                    </div>
+                    <!-- cba -->
+                    <div class="relative">
+                        <select id="cba" class="ml-4 mt-4 mr-4 mb-4 block w-full text-sm py-2.5 px-4 text-gray-900 bg-gray-50 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 peer"  required>
+                            <option value="not_selected" disabled selected>CBA ausgeben</option>
+                            <option value="minus_zwei">- 2</option>
+                            <option value="minus_eins">- 1</option>
+                            <option value="null">0</option>
+                            <option value="eins">1</option>
+                            <option value="zwei">2</option>
+                            <option value="reducted">reduction only</option>
+                        </select>
+                    </div>
+                    <!-- Button for Handicap calculation and refers to result -->
+                    <button type="button" id="calculateHandicap"  class="ml-10 mt-1ß mb-10 text-white bg-darkseagreen hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm sm:w-auto px-5 py-4 text-center w-1/2">Handicap berechnen</button>
+                </div>
+                <div class="w-1/2">
+                    <section class="flex pl-40">
+                        <div class="relative">
+                            <!-- table to put in data, selected for first nine holes, last nine holes and all 18 holes -->
+                            <select id="number_holes" class="mr-4 mb-4 block w-full text-sm py-2.5 px-4 text-gray-900 bg-gray-50 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 peer" required>
+                                <option value="not_selected" disabled selected>Anzahl der gespielten Löcher</option>
+                                <option value="9_first">Die ersten neun Löcher</option>
+                                <option value="9_last">Die letzten neun Löcher</option>
+                                <option value="18">Alle 18 Löcher</option>
+                            </select>
+                        </div>
+                    </section>
+                    <section id="holes" class="pr-10">
+                        <!-- generates Table in input_data.js and puts it in this place holder-->
+                        <table id="scoreTable" class="ml-20 mb-10 border-collapse rounded-lg"></table>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+<footer class="bg-white flex text-darkseagreen center px-10 py-4 w-full bottom-0 fixed z-50">
+    <p>&copy; 2023 Golf Handicap. All rights reserved.</p>
+</footer>
+<!-- script import -->
+<script type="module" src="../code/displayUsername.js"></script>
+<script type="module" src="../code/inputData.js"></script>
+</body>
+</html>

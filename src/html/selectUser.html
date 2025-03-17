@@ -1,8 +1,11 @@
+<!-- Select User page - a user has to be selected -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>Select User</title>
+  <!-- tailwind - import -->
   <script src="../code/style.tailwind.js"></script>
   <link rel="icon" href="">
   <script>
@@ -26,7 +29,9 @@
         <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-600 md:text-2xl dark:text-white">
           User aussuchen
         </h1>
+        <!-- all Users are listed in seperated buttons and redirect to startpage or admin depending on rule (lines 56 - 64)-->
         <div id="userButtons" class="w-full max-w-md"></div>
+        <!-- if User is not created you can create User -->
         <p class="text-sm font-light text-gray-500 dark:text-gray-400">
           Du hast noch keinen User? <a href="newUser.html" class="font-medium text-primary-600 hover:underline dark:text-primary-500">Jetzt erstellen</a>
         </p>
@@ -35,36 +40,6 @@
   </div>
 </section>
 </body>
-<script type="module">
-  import { DataHandler } from "../code/datahandler.js";
-
-  document.addEventListener("DOMContentLoaded", async function () {
-    const calc = new DataHandler();
-
-    let players = calc.getUsers();
-    const userButtonCon = document.getElementById("userButtons");
-    userButtonCon.innerHTML = "";
-
-    players.forEach(player => {
-      const button = document.createElement("button");
-      button.textContent = player.name;
-      button.className = "w-full text-white bg-darkseagreen hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mt-2";
-
-      button.addEventListener("click", function () {
-        localStorage.setItem("selectedUser", JSON.stringify(player));
-        if(player.role === "sekretaer") {
-          window.location.href = "admin.html";
-        }
-        else if (player.role === "spielfuehrer") {
-          window.location.href = "startPage.html";
-        }
-        else {
-          window.location.href = "startPage.html";
-        }
-      });
-
-      userButtonCon.appendChild(button);
-    });
-  });
-</script>
+<!-- script import -->
+<script type="module" src="../code/selectUser.js"></script>
 </html>
