@@ -136,8 +136,12 @@ import {ega_calc} from "./ega_handicap.js";
                 }
 
             console.log("Try to store the data", dataToCalc);
-
-            backendCalc.addGame(dataToCalc);
+            try{
+                backendCalc.addGame(dataToCalc);
+            } catch {
+                return
+            }
+            
 
             console.log("games:" + JSON.stringify(backendCalc.getGames()));
             // Zurückführen zur Startseite

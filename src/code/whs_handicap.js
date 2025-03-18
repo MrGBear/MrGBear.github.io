@@ -6,9 +6,12 @@
 // Benötigt wird eine Liste der letzten 20/alle Spielergebnisse
 //Alternativ: Scoring Record: Umfasst die jeweils 20 jünsten (oder weniger) Ergebnisse -> Beste Option
 export function calculateWHS(data) {
+    debugger;
+    data = data.filter((game) => !game.ignore);
     const prevHCI = data.length >= 2? data[data.length - 2].whs : 54;
     //Calculate the course differential 
     const score_differential = calculateCourseDifferential(data[data.length - 1], prevHCI);
+    console.log(score_differential)
     data[data.length - 1].score_differential = score_differential;
     console.log(JSON.stringify(data[data.length - 1].score_differential));
     console.log("SR: " + JSON.stringify(data))
@@ -24,11 +27,16 @@ export function calculateWHS(data) {
     const whs = getWHS(scoringRecord);
     console.log("WHS value:" + JSON.stringify(whs));
 
-    return({whs: whs, scoringRecord: scoringRecord});
+    if(whs > 60){
+        throw new Error("Dateneingabe falsch, WHS Berechnung funktioniert so nicht")
+    }
+
+    return({whs: whs, score_differential: score_differential});
 
 
     // determine the correct calculation method based on the number of games played 
     function getWHS(scoringRecord){
+        debugger;
         let srcd = JSON.parse(JSON.stringify(scoringRecord));
         console.log(srcd.length)
         srcd = srcd.map((x) => x.score_differential); //FEHER HIER
@@ -126,9 +134,8 @@ function calculateCourseDifferential(gameData, HCI, stableford = false){
     const ppc = gameData.ppc;
     const prevHCI = HCI;
     const par = gameData.holes.reduce((a, b) => {return a + b.par}, 0);
-    let handicapData = gameData.handicap_index;
+    let handicapData = HCI;
     let unplayedNineHoleCorrection = 0;
-
     //Calculation of values that depent on the number of holes
     if(gameData.holes.length === 9){
         handicapData = Math.floor(handicapData / 2); // This is important for the course handicap

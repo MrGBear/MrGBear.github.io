@@ -8,7 +8,7 @@ import { calculate_ega } from './ega_handicap.js';
 import { calculateWHS } from "./whs_handicap.js";
 
 //overwrites localstorage function, always uses testdata
-const usetest = true;
+const usetest = false;
 
 //Default JSON OBJECTS
 const default_value = {
@@ -16,7 +16,20 @@ const default_value = {
         {
             "user_id": 0,
             "user_name": "Sekretär",
-            "password": "1234"
+            "password": "1234",
+            "role": "sekretaer"
+        },
+        {
+            "user_id": 1,
+            "user_name": "Spielführer",
+            "password": "1234",
+            "role": "spielfuehrer",
+        },
+        {
+            "user_id": 2,
+            "user_name": "Golfprofi",
+            "password": "1234",
+            "role": "spieler",
         }
     ],
     "courses": [
@@ -25,92 +38,6 @@ const default_value = {
 };
 
 //DataObject which is filled with all Data about User, games and handicaps
-const dataObject = {
-    "users": [
-        {
-            "user_id": 0,
-            "user_name": "Sekretär",
-            "password": "1234",
-            "email": "sekretaer@sekretaer.de",
-            "role": "sekretaer"
-        },
-        {
-            "user_id": 0,
-            "user_name": "Master",
-            "password": "1234",
-            "email": "Master@gm.de",
-            "role": "spielfuehrer"
-        },
-        {
-            "user_id": 1,
-            "user_name": "spielfuehrer",
-            "password": "1234",
-            "role": "sekretaer"
-        },
-        {
-            "user_id": 2,
-            "user_name": "Golfprofi",
-            "password": "1234",
-            "email": "golfprofi@golf.de",
-            "role": "spieler",
-            "ega": 11.9,
-            "whs": 12.1,
-            "games": [
-                {
-                    "game_id": 1,
-                    "course_name": "Green Valley Golf Course",
-                    "course_id": null,
-                    "course_rating": 72.5,
-                    "slope_rating": 113,
-                    "ppc": 0,
-                    "handicap_index": 12.4,
-                    "date": "2023-10-15",
-                    "score_differential": 2.8,
-                    "stableford": 36,
-                    "ega": 11.9,
-                    "whs": 12.1,
-                    "holes": [
-                        {
-                            "pos": 1,
-                            "hdc": 14,
-                            "par": 4,
-                            "gbe": 5
-                        },
-                        {
-                            "pos": 2,
-                            "hdc": 3,
-                            "par": 3,
-                            "gbe": 4
-                        },
-                        {
-                            "pos": 3,
-                            "hdc": 6,
-                            "par": 5,
-                            "gbe": 5
-                        }
-                    ]
-                }
-            ]
-        }
-    ],
-    "courses": [
-        {
-            "id": 101,
-            "name": "Green Valley Golf Course",
-            "rating": 72.5
-        },
-        {
-            "id": 102,
-            "name": "Sunny Hills Golf Club",
-            "rating": 71.2
-        },
-        {
-            "id": 103,
-            "name": "Mountain View Golf",
-            "rating": 73.0
-        }
-    ]
-};
 import { datav2 } from '../test/data/datav2.js';
 
 // gets DataObject
@@ -121,7 +48,7 @@ function getData() {
     let data = Storage.getData();
     if (!data) {
         console.log("Using default");
-        return dataObject;
+        return default_value;
     }
     return data;
 }
@@ -237,7 +164,7 @@ export class DataHandler {
     getGames(copy = true) {
         const userData = this.getUserData(undefined, copy);
         if (userData.games === undefined) {
-            userData.games = [{ ega: 54, whs: 54, game_id: 0 }]
+            userData.games = [{ ega: 54, whs: 54, game_id: 0, ignore: true }]
         }
         return userData.games;
     }
@@ -265,9 +192,21 @@ export class DataHandler {
             const game_id = games.reduce((max, game) => Math.max(max, game.game_id), 0) + 1;
             this.getGames(false).push({ game_id: game_id });
             data.game_id = game_id;
+            try {
+                return this.modGame(data.game_id, data);
+            } catch {
+                this.removeGame(game_id)
+                throw new Error("Fehler beim Modifizieren des Spiels")
+            }
+        }
+        try {
+            return this.modGame(data.game_id, data);
+        } catch {
+            throw new Error("Fehler beim Modifizieren des Spiels")
         }
 
-        return this.modGame(data.game_id, data);
+        
+ 
     }
 
     modGame(game_id, data) {
@@ -283,11 +222,12 @@ export class DataHandler {
                 game[key] = data[key];
             }
         }
+        console.log("DATA input: " + JSON.stringify(data));
         setIfExist("date");
         setIfExist("course_name");
         setIfExist("course_rating");
         setIfExist("slope_rating");
-        setIfExist("pcc");
+        setIfExist("ppc");
         setIfExist("holes");
         //Set the handicap values to null, so the calculator will recalculate them
         game.whs = null;
@@ -324,10 +264,9 @@ export class DataHandler {
         console.log("min Index:" + min_index);
         for (let i = min_index; i <= games.length; i++) {
             let subGames = this.exportObject(games.slice(0, i));
-
+            
             if (subGames.length != 1) {
-                
-                const ega = calculate_ega(subGames);
+                    const ega = calculate_ega(subGames);
                 games[i - 1].ega = ega.ega;
                 games[i - 1].stableford = ega.stableford;
                 
@@ -338,13 +277,15 @@ export class DataHandler {
                 //set whs and ega in the player data for the last game
                 if(i === games.length){
                     let userData = this.getUserData(undefined, false);
-                    userData.whs = whs;
-                    userData.ega = ega;
+                    userData.whs = whs.whs;
+                    userData.ega = ega.ega;
                 }
+                
                 
             }
 
         }
+        console.log("Games:" + JSON.stringify(games));
         this.saveData();
     }
 }
