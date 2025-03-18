@@ -9,49 +9,11 @@ import {calculateWHS} from "./whs_handicap.js";
 //overwrites localstorage function, always uses testdata
 const usetest = false;
 
-//Default JSON OBJECTS
-const default_value = {
-    "users": [
-        {
-            "user_id": 0,
-            "user_name": "Sekretär",
-            "password": "1234",
-            "role": "sekretaer"
-        },
-        {
-            "user_id": 1,
-            "user_name": "Spielführer",
-            "password": "1234",
-            "role": "spielfuehrer",
-        },
-        {
-            "user_id": 2,
-            "user_name": "Golfprofi",
-            "password": "1234",
-            "role": "spieler",
-        }
-    ],
-    "courses": [
-        {
-            "id": 101,
-            "name": "Green Valley Golf Course",
-            "rating": 72.5
-        },
-        {
-            "id": 102,
-            "name": "Sunny Hills Golf Club",
-            "rating": 71.2
-        },
-        {
-            "id": 103,
-            "name": "Mountain View Golf",
-            "rating": 73.0
-        }
-    ]
-};
-
 //DataObject which is filled with all Data about User, games and handicaps
 import { datav2 } from '../test/data/datav2.js';
+
+//Default value, when first opening the app
+import { default_value } from './defaultvalue.js';
 
 // gets DataObject
 function getData() {
