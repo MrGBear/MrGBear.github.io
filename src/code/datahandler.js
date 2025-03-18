@@ -8,7 +8,7 @@ import { calculate_ega } from './ega_handicap.js';
 import { calculateWHS } from "./whs_handicap.js";
 
 //overwrites localstorage function, always uses testdata
-const usetest = false;
+const usetest = true;
 
 //Default JSON OBJECTS
 const default_value = {
@@ -35,6 +35,12 @@ const dataObject = {
         },
         {
             "user_id": 1,
+            "user_name": "spielfuehrer",
+            "password": "1234",
+            "role": "sekretaer"
+        },
+        {
+            "user_id": 2,
             "user_name": "Golfprofi",
             "password": "1234",
             "role": "spieler",
@@ -48,7 +54,7 @@ const dataObject = {
                     "ppc": 0,
                     "handicap_index": 12.4,
                     "date": "2023-10-15",
-                    "score_differenital": 2.8,
+                    "score_differential": 2.8,
                     "stableford": 36,
                     "ega": 11.9,
                     "whs": 12.1,
@@ -94,11 +100,12 @@ const dataObject = {
         }
     ]
 };
+import { datav2 } from '../test/data/datav2.js';
 
 // gets DataObject
 function getData() {
     if (usetest) {
-        return dataObject;
+        return datav2;
     }
     let data = Storage.getData();
     if (!data) {
@@ -306,10 +313,12 @@ export class DataHandler {
             let subGames = this.exportObject(games.slice(0, i));
 
             if (subGames.length != 1) {
+                /*
                 const ega = calculate_ega(subGames);
                 games[i - 1].ega = ega.ega;
                 games[i - 1].stableford = ega.stableford;
-
+                */
+                
                 const whs = calculateWHS(subGames);
                 games[i - 1].whs = whs.whs;
                 games[i - 1].score_differential = whs.score_differential;
@@ -319,6 +328,7 @@ export class DataHandler {
                     userData.whs = whs;
                     userData.ega = ega;
                 }
+                
             }
 
         }
