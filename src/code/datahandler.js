@@ -193,6 +193,7 @@ export class DataHandler {
     //Create a new Game for the current Player
     addGame(data) {
         //copy Object
+        debugger;
         data = this.exportObject(data);
 
         //Asumtion User is correctly set
@@ -206,15 +207,15 @@ export class DataHandler {
             data.game_id = game_id;
             try {
                 return this.modGame(data.game_id, data);
-            } catch {
+            } catch(error) {
                 this.removeGame(game_id)
-                throw new Error("Fehler beim Modifizieren des Spiels")
+                throw error;
             }
         }
         try {
             return this.modGame(data.game_id, data);
-        } catch {
-            throw new Error("Fehler beim Modifizieren des Spiels")
+        } catch(error) {
+            throw error;
         }
 
         
@@ -231,7 +232,7 @@ export class DataHandler {
 
         //Set/update data
         function setIfExist(key) {
-            if (data[key]) {
+            if ((data[key] !== undefined)) {
                 game[key] = data[key];
             }
         }

@@ -26,7 +26,6 @@ export function calculateWHS(data) {
 
     const whs = getWHS(scoringRecord);
     console.log("WHS value:" + JSON.stringify(whs));
-
     if(whs > 60){
         throw new Error("Dateneingabe falsch, WHS Berechnung funktioniert so nicht")
     }
