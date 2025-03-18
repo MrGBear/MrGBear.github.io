@@ -1,32 +1,59 @@
 import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
 mermaid.initialize({ startOnLoad: true });
-//x-Achse
-const xLabels = [1];
-//y-Achse
-const values = [20];
+//x-Achse WHS 
+const xLabelsWHS = [];
+//y-Achse WHS
+const valuesWHS = [];
 
-function writeChart(){
+function writeChartWHS(){
     const chartCode = ' xychart-beta\n'
-        + `    x-axis [${xLabels.join(",")}]
+        + `    x-axis [${xLabelsWHS.join(",")}]
 `
         + '    y-axis "Handicap" 0 --> 70\n'
-        + `    bar [${values.join(",")}]
+        + `    bar [${valuesWHS.join(",")}]
 `
-        + `    line [${values.join(",")}]`;
+        + `    line [${valuesWHS.join(",")}]`;
 
     document.getElementById("mermaidContainerWHS").innerHTML = chartCode;
+}
+
+writeChartWHS();
+
+//x-Achse EGA 
+const xLabelsEGA = [];
+//y-Achse EGA
+const valuesEGA = [];
+
+
+function writeChartEGA(){
+    const chartCode = ' xychart-beta\n'
+        + `    x-axis [${xLabelsEGA.join(",")}]
+`
+        + '    y-axis "Handicap" 0 --> 70\n'
+        + `    bar [${valuesEGA.join(",")}]
+`
+        + `    line [${valuesEGA.join(",")}]`;
+
     document.getElementById("mermaidContainerEGA").innerHTML = chartCode;
 }
 
-writeChart();
+writeChartEGA();
 
 //function, where the ega and whs numbers can be added
-function addValueToChart(xLabel, value){
-    xLabels.push(xLabel);
-    values.push(value);
-    console.log(xLabels);
-    console.log(values);
-    writeChart();
+function addValueToChartWHS(xLabel, value){
+    xLabelsWHS.push(xLabel);
+    valuesWHS.push(value);
+    console.log(xLabelsWHS);
+    console.log(valuesWHS);
+    writeChartWHS();
+}
+
+function addValueToChartEGA(xLabel, value){
+    xLabelsEGA.push(xLabel);
+    valuesEGA.push(value);
+    console.log(xLabelsEGA);
+    console.log(valuesEGA);
+    writeChartEGA();
 }
 
 import { backendCalc } from "./datahandler.js";
@@ -36,9 +63,22 @@ const user = JSON.parse(localStorage.getItem("selectedUser"));
 backendCalc.switchUser(user.id);
 const games = backendCalc.getGames();
 
+console.log(backendCalc.getGames());
+
+console.log(games);
+console.log(user.id);
+console.log(games[0].game_id);
+
+function addGames(){
+    games.forEach(element => {
+        addValueToChartWHS(element.game_id, element.whs);
+        addValueToChartEGA(element.game_id, element.ega);
+    });
+}
+
 // gets ega and whs from updateHandicap in datahandler.js
 document.addEventListener("DOMContentLoaded", function () {
-    if (games.whs && games.ega) {
+    if (games.whs != null && games.ega != null) {
         document.getElementById('whs').textContent = games[length - 1].whs;
         document.getElementById('ega').textContent = games[length - 1].ega;
     }
@@ -57,3 +97,5 @@ function displayUsername() {
 }
 
 document.addEventListener("DOMContentLoaded", displayUsername);
+
+addGames();
