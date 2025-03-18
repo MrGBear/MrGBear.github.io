@@ -33,7 +33,6 @@ function displayScorecard(gameData, name) {
         <h2 class="text-xl font-bold mb-2">Scorecard für ${gameData.course_name}</h2>
         <h2 class="text-xl font-bold mb-2">Besitzer dieser Golfcard ist: ${name}</h2>
         <p><strong>Datum:</strong> ${gameData.date}</p>
-        <p><strong>Handicap Index:</strong> ${gameData.handicap_index}</p>
         <p><strong>Slope Rating:</strong> ${gameData.slope_rating}</p>
         <p><strong>WHS:</strong> ${gameData.whs}</p>
         <p><strong>EGA:</strong> ${gameData.ega}</p>

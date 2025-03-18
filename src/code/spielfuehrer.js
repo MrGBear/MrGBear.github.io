@@ -51,7 +51,7 @@ function showGamesPopup(playerId, name) {
         popupHTML += `<div class="bg-white shadow-md rounded-lg p-4 mb-4 border border-gray-200 relative group">
             <h2 class="text-lg font-bold text-darkseagreen">${game.course_name}</h2>
             <p class="text-gray-600"><strong>Datum:</strong> ${game.date}</p>
-            <p class="text-gray-600"><strong>Handicap Index:</strong> ${game.handicap_index}</p>
+            <p class="text-gray-600"><strong>EGA:</strong> ${game.ega}</p>
             <p class="text-gray-600"><strong>WHS:</strong> ${game.whs}</p>
 
             <!-- Hover-Buttons -->
