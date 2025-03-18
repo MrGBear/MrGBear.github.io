@@ -35,9 +35,8 @@
       onclick="location.href='selectUser.html'"></button>
   </header>
   <main>
-    <section id="result_handicap"
-      class="pt-24 pb-24 bg-cover bg-fixed bg-center bg-no-repeat bg-[url('../resources/wii.png')] shadow-md">
-      <div class="bg-white rounded-lg ml-40 mr-40 ">
+    <section id="result_handicap" class="pt-24 pb-24 bg-cover bg-full bg-fixed bg-center bg-no-repeat bg-[url('../resources/wii.png')] shadow-md">
+      <div class="px-20 py-10 bg-white rounded-lg ml-40 mr-40 ">
         <div class="flex">
           <!-- goes back to input page -->
           <a href="javascript:history.back()" class="back-arrow">
@@ -46,8 +45,8 @@
           <h2 class="pt-6 ml-10 mb-4 text-xl text-darkseagreen">Ergebnisse</h2>
         </div>
         <!-- Shows result for whs handicap number -->
-        <div class="flex justify-center gap-80 mb-6">
-          <div class="flex-1 max-w-xs">
+        <div>
+          <div>
             <label for="whs" class="block text-darkseagreen text-xl font-bold mb-2">WHS Handicap</label>
             <div id="whs"
               class="bg-lightgreen p-6 text-darkseagreen text-3xl font-semibold rounded-lg shadow-md text-center">
@@ -55,12 +54,12 @@
             <!-- shows graph of development of whs handicap -->
             <div class=" justify-between mt-10 mb-6">
               <div id="mermaidContainerWHS" class="mermaid">
-                <canvas id="whsChart"></canvas>
+                <canvas id="whsChart" class="w-full h-full"></canvas>
               </div>
             </div>
           </div>
           <!-- Shows result for ega handicap number -->
-          <div class="flex-1 max-w-xs">
+          <div>
             <label for="ega" class="block text-darkseagreen text-xl font-bold mb-2">EGA Handicap</label>
             <div id="ega"
               class="bg-lightgreen p-6 text-darkseagreen text-3xl font-semibold rounded-lg shadow-md text-center">
@@ -68,7 +67,7 @@
             <!-- shows graph of development of ega handicap -->
             <div class="justify-between mt-10 mb-6">
               <div id="mermaidContainerEGA" class=" mermaid">
-                <canvas id="egaChart"></canvas>
+                <canvas id="egaChart" class="w-full h-full"></canvas>
               </div>
             </div>
 

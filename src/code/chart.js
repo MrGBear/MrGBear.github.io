@@ -85,8 +85,8 @@ function addGames(){
 // gets ega and whs from updateHandicap in datahandler.js
 document.addEventListener("DOMContentLoaded", function () {
     if (games.whs != null && games.ega != null) {
-        document.getElementById('whs').textContent = games[length - 1].whs;
-        document.getElementById('ega').textContent = games[length - 1].ega;
+        document.getElementById('whs').textContent = valuesWHS[length-1];
+        document.getElementById('ega').textContent = valuesEGA[length-1];
     }
     else {
 
