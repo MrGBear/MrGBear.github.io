@@ -1,14 +1,13 @@
 // Module to function as an API for getting and saving Data 
 
 
-
 //Config
-import { Storage } from './localstorage_store.js';
-import { calculate_ega } from './ega_handicap.js';
-import { calculateWHS } from "./whs_handicap.js";
+import {Storage} from './localstorage_store.js';
+import {calculate_ega} from './ega_handicap.js';
+import {calculateWHS} from "./whs_handicap.js";
 
 //overwrites localstorage function, always uses testdata
-const usetest = true;
+const usetest = false;
 
 //Default JSON OBJECTS
 const default_value = {
@@ -20,7 +19,21 @@ const default_value = {
         }
     ],
     "courses": [
-
+        {
+            "id": 101,
+            "name": "Green Valley Golf Course",
+            "rating": 72.5
+        },
+        {
+            "id": 102,
+            "name": "Sunny Hills Golf Club",
+            "rating": 71.2
+        },
+        {
+            "id": 103,
+            "name": "Mountain View Golf",
+            "rating": 73.0
+        }
     ]
 };
 
@@ -111,12 +124,12 @@ const dataObject = {
         }
     ]
 };
-import { datav2 } from '../test/data/datav2.js';
+import {datav2} from '../test/data/datav2.js';
 
 // gets DataObject
 function getData() {
     if (usetest) {
-        return datav2;
+        return dataObject;
     }
     let data = Storage.getData();
     if (!data) {
@@ -152,8 +165,6 @@ export class DataHandler {
         }
         return data;
     }
-
-
 
 
     /* User Management */
@@ -230,14 +241,12 @@ export class DataHandler {
     }
 
 
-
-
     /* Game Management */
 
     getGames(copy = true) {
         const userData = this.getUserData(undefined, copy);
         if (userData.games === undefined) {
-            userData.games = [{ ega: 54, whs: 54, game_id: 0 }]
+            userData.games = [{ega: 54, whs: 54, game_id: 0}]
         }
         return userData.games;
     }
@@ -245,8 +254,11 @@ export class DataHandler {
 
     //new because all courses have to be selected
     getCourses(copy = true) {
+        if (!this.json_data.courses) {
+            this.json_data.courses = [];
+        }
         const courses = this.json_data.courses;
-        console.log(courses)
+        console.log(courses);
         return copy ? this.exportObject(courses) : courses;
     }
 
@@ -263,7 +275,7 @@ export class DataHandler {
             //get game ID
             const games = this.getGames();
             const game_id = games.reduce((max, game) => Math.max(max, game.game_id), 0) + 1;
-            this.getGames(false).push({ game_id: game_id });
+            this.getGames(false).push({game_id: game_id});
             data.game_id = game_id;
         }
 
@@ -277,12 +289,14 @@ export class DataHandler {
         if (!game) {
             return false;
         }
+
         //Set/update data
         function setIfExist(key) {
             if (data[key]) {
                 game[key] = data[key];
             }
         }
+
         setIfExist("date");
         setIfExist("course_name");
         setIfExist("course_rating");
@@ -319,29 +333,35 @@ export class DataHandler {
     updateHandicap() {
         let games = this.getGames(false);
         //find the index of the changed game, every game after this has to be recalculated
-        games.sort((a, b) => { if (a.date != b.date) { return new Date(a.date) - new Date(b.date) } else { return a.game_id - b.game_id } });
+        games.sort((a, b) => {
+            if (a.date != b.date) {
+                return new Date(a.date) - new Date(b.date)
+            } else {
+                return a.game_id - b.game_id
+            }
+        });
         const min_index = games.findIndex(game => !game.whs || !game.ega);
         console.log("min Index:" + min_index);
         for (let i = min_index; i <= games.length; i++) {
             let subGames = this.exportObject(games.slice(0, i));
 
             if (subGames.length != 1) {
-                
+
                 const ega = calculate_ega(subGames);
                 games[i - 1].ega = ega.ega;
                 games[i - 1].stableford = ega.stableford;
-                
-                
+
+
                 const whs = calculateWHS(subGames);
                 games[i - 1].whs = whs.whs;
                 games[i - 1].score_differential = whs.score_differential;
                 //set whs and ega in the player data for the last game
-                if(i === games.length){
+                if (i === games.length) {
                     let userData = this.getUserData(undefined, false);
                     userData.whs = whs;
                     userData.ega = ega;
                 }
-                
+
             }
 
         }
