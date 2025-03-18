@@ -31,7 +31,15 @@ const dataObject = {
             "user_id": 0,
             "user_name": "Sekretär",
             "password": "1234",
+            "email": "sekretaer@sekretaer.de",
             "role": "sekretaer"
+        },
+        {
+            "user_id": 0,
+            "user_name": "Master",
+            "password": "1234",
+            "email": "Master@gm.de",
+            "role": "spielfuehrer"
         },
         {
             "user_id": 1,
@@ -43,7 +51,10 @@ const dataObject = {
             "user_id": 2,
             "user_name": "Golfprofi",
             "password": "1234",
+            "email": "golfprofi@golf.de",
             "role": "spieler",
+            "ega": 11.9,
+            "whs": 12.1,
             "games": [
                 {
                     "game_id": 1,
@@ -157,13 +168,15 @@ export class DataHandler {
             return this.json_data.users.map(player => ({
                 id: player.user_id,
                 name: player.user_name,
-                role: player.role
+                role: player.role,
+                email: player.email
             }));
         } else {
             return [{
                 id: this.json_data.users.user_id,
                 name: this.json_data.users.user_name,
-                role: this.json_data.users.role
+                role: this.json_data.users.role,
+                email: this.json_data.users.email
             }];
         }
     }
