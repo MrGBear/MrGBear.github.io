@@ -6,6 +6,7 @@ import {ega_calc} from "./ega_handicap.js";
 
     // error handling
     function validateInputs() {
+        console.log("Daten werden validiert...");
         let isValid = true;
         const errorMessages = {}; // Speichert Fehler pro Feld
 
@@ -59,6 +60,7 @@ import {ega_calc} from "./ega_handicap.js";
 
         if (cba === "not_selected") {
             showError("number_holes", "Bitte die Anzahl der Löcher auswählen");
+            hasError = true;
         }
 
         // Überprüfung: Spiel existiert bereits?
@@ -95,6 +97,7 @@ import {ega_calc} from "./ega_handicap.js";
     // Event Listener für den Handicap-Berechnen-Button
     document.getElementById("calculateHandicap").addEventListener("click", function () {
         if (validateInputs()) {
+            debugger;
             console.log("Daten sind gültig, Berechnung wird gestartet...");
             // Get the current user
             const user = JSON.parse(localStorage.getItem("selectedUser"));
@@ -148,6 +151,8 @@ import {ega_calc} from "./ega_handicap.js";
             backendCalc.addGame(dataToCalc);
 
             console.log("games:" + JSON.stringify(backendCalc.getGames()));
+            // Zurückführen zur Startseite
+            window.location.href="../html/startPage.html";
         } else {
             console.log("Fehlerhafte Eingaben.");
         }

@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             <p class="text-gray-600"><strong>Datum:</strong> ${game.date}</p>
             <p class="text-gray-600"><strong>EGA:</strong> ${game.ega}</p>
             <p class="text-gray-600"><strong>WHS:</strong> ${game.whs}</p>
-            <p class="text-gray-600"><strong>Score Differential:</strong> ${game.score_differenital}</p>
+            <p class="text-gray-600"><strong>Score Differential:</strong> ${game.score_differential}</p>
             <p class="text-gray-600"><strong>Course Rating:</strong> ${game.course_rating}</p>
             <p class="text-gray-600"><strong>Slope Rating:</strong> ${game.slope_rating}</p>
             <p class="text-gray-600"><strong>PPC:</strong> ${game.ppc}</p>
