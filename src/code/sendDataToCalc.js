@@ -97,7 +97,6 @@ const calculateHandicap = () => {
             backendCalc.switchUser(user.id);
 
             // get Data from frontend
-            const player_name = document.getElementById("player_name").value;  // Player name
             const course_name = document.getElementById("course_name").value;  // Course name
             const course_rating = parseFloat(document.getElementById("course_rating").value);  // Course rating
             const slope_rating = parseInt(document.getElementById("slope_rating").value);  // Slope rating
