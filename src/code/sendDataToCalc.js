@@ -63,14 +63,6 @@ import {ega_calc} from "./ega_handicap.js";
             hasError = true;
         }
 
-        // Überprüfung: Spiel existiert bereits?
-
-
-        // Zurückführen zur Startseite
-        if(!hasError){
-        window.location.href="../html/startPage.html";
-        }
-
         // Wenn ein Fehler vorliegt, Abbruch
         return !hasError;
 
@@ -108,7 +100,6 @@ import {ega_calc} from "./ega_handicap.js";
             const course_rating = parseFloat(document.getElementById("course_rating").value);  // Course rating
             const slope_rating = parseInt(document.getElementById("slope_rating").value);  // Slope rating
             const ppc = parseInt(document.getElementById("ppc").value);  // PPC
-            const handicap_index = document.getElementById("handycap_index").value ? parseFloat(document.getElementById("handycap_index").value) : null;  // Handicap index
             const date = document.getElementById("date").value;  // Date
 
             const numberOfHoles = parseInt(document.getElementById("number_holes").value);
@@ -141,7 +132,6 @@ import {ega_calc} from "./ega_handicap.js";
                     course_rating: course_rating,
                     slope_rating: slope_rating,
                     ppc: ppc,
-                    handicap_index: handicap_index,
                     date: date,
                     holes: holes
                 }
@@ -152,6 +142,7 @@ import {ega_calc} from "./ega_handicap.js";
 
             console.log("games:" + JSON.stringify(backendCalc.getGames()));
             // Zurückführen zur Startseite
+            debugger;
             window.location.href="../html/startPage.html";
         } else {
             console.log("Fehlerhafte Eingaben.");
