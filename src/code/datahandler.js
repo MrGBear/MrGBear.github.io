@@ -193,7 +193,6 @@ export class DataHandler {
     //Create a new Game for the current Player
     addGame(data) {
         //copy Object
-        debugger;
         data = this.exportObject(data);
 
         //Asumtion User is correctly set

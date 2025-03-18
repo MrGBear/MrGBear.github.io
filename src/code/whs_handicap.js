@@ -6,7 +6,6 @@
 // Benötigt wird eine Liste der letzten 20/alle Spielergebnisse
 //Alternativ: Scoring Record: Umfasst die jeweils 20 jünsten (oder weniger) Ergebnisse -> Beste Option
 export function calculateWHS(data) {
-    debugger;
     data = data.filter((game) => !game.ignore);
     const prevHCI = data.length >= 2? data[data.length - 2].whs : 54;
     //Calculate the course differential 
@@ -35,7 +34,6 @@ export function calculateWHS(data) {
 
     // determine the correct calculation method based on the number of games played 
     function getWHS(scoringRecord){
-        debugger;
         let srcd = JSON.parse(JSON.stringify(scoringRecord));
         console.log(srcd.length)
         srcd = srcd.map((x) => x.score_differential); //FEHER HIER
