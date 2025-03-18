@@ -6,11 +6,11 @@
 // Benötigt wird eine Liste der letzten 20/alle Spielergebnisse
 //Alternativ: Scoring Record: Umfasst die jeweils 20 jünsten (oder weniger) Ergebnisse -> Beste Option
 export function calculateWHS(data) {
-
+    const prevHCI = data.length >= 2? data[data.length - 2].whs : 54;
     //Calculate the course differential 
-    const score_differential = calculateCouseDifferential(data[data.length - 1]);
+    const score_differential = calculateCourseDifferential(data[data.length - 1], prevHCI);
     data[data.length - 1].course_differential = score_differential;
-
+    console.log(JSON.stringify(data[data.length - 1].course_differential));
     //Final calculation
     const scoringRecord = data.slice(Math.max(0, data.length - 21), data.length - 1);
 
@@ -115,14 +115,13 @@ function calculateNettoDoubleboggy(holes, player_handicap = 54){
 
 //Calculates the couseDifferential for a game
 //if stableford = true, The Stableford Point system will be used
-function calculateCouseDifferential(gameData, stableford = false){
+function calculateCourseDifferential(gameData, HCI, stableford = false){
 
     const slope_rating = gameData.slope_rating;
     const course_rating = gameData.course_rating;
     const ppc = gameData.ppc;
-    const prevHCI = gameData.handicap_index > 0 ? gameData.handicap_index : gameData.handicap_index * -1 ;
+    const prevHCI = HCI;
     const par = gameData.holes.reduce((a, b) => {return a + b.par}, 0);
-
     let handicapData = gameData.handicap_index;
     let unplayedNineHoleCorrection = 0;
 
@@ -162,4 +161,4 @@ function nineHoleCorrection(HCPI){
 }
 
 //EXPORT
-export const whs_testpackage = {calculateCouseDifferential, calculateNettoDoubleboggy, nineHoleCorrection, calculateWHS};
+export const whs_testpackage = {calculateCouseDifferential: calculateCourseDifferential, calculateNettoDoubleboggy, nineHoleCorrection, calculateWHS};
