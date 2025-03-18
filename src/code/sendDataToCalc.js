@@ -1,8 +1,8 @@
 // how data is sent to calculation to be correctly permitted
 
 import { backendCalc } from './datahandler.js';
-import {send_email} from "./email_service";
-import {ega_calc} from "./ega_handicap";
+import {send_email} from "./email_service.js";
+import {ega_calc} from "./ega_handicap.js";
 
 const calculateHandicap = () => {
     // error handling
@@ -65,8 +65,12 @@ const calculateHandicap = () => {
         // Überprüfung: Spiel existiert bereits?
 
 
+        // Zurückführen zur Startseite
+
+        window.location.href="../html/startPage.html";
+
         // Wenn ein Fehler vorliegt, Abbruch
-        if (hasError) return;
+        return !hasError;
 
 // Funktion zur Anzeige von Fehlermeldungen
         function showError(inputId, message) {
