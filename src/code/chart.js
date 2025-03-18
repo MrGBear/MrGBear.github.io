@@ -65,16 +65,15 @@ const gamesBefore = backendCalc.getGames();
 
 console.log(backendCalc.getGames());
 
-console.log(games);
-console.log(user.id);
-console.log(games[0].game_id);
 
 
 const games = [];
 
-for(let i = 1; i < gamesBefore.length; i++){
+for(let i = 0; i < gamesBefore.length; i++){
     games.push(gamesBefore[i]);
 }
+
+console.log(games);
 
 function addGames(){
     games.forEach(element => {
