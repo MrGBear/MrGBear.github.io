@@ -65,6 +65,10 @@ const calculateHandicap = () => {
         // Überprüfung: Spiel existiert bereits?
 
 
+        // Zurückführen zur Startseite
+
+        window.location.href="../html/startPage.html";
+
         // Wenn ein Fehler vorliegt, Abbruch
         return true;
 
