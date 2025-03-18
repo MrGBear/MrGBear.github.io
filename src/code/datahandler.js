@@ -313,11 +313,11 @@ export class DataHandler {
             let subGames = this.exportObject(games.slice(0, i));
 
             if (subGames.length != 1) {
-                /*
+                
                 const ega = calculate_ega(subGames);
                 games[i - 1].ega = ega.ega;
                 games[i - 1].stableford = ega.stableford;
-                */
+                
                 
                 const whs = calculateWHS(subGames);
                 games[i - 1].whs = whs.whs;

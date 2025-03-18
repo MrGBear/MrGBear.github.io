@@ -32,7 +32,7 @@ export function calculateWHS(data) {
         let srcd = JSON.parse(JSON.stringify(scoringRecord));
         console.log(srcd.length)
         srcd = srcd.map((x) => x.score_differential); //FEHER HIER
-        console.log(JSON.stringify(srcd))
+        console.log("srcd" + JSON.stringify(srcd))
         switch(true){
             case(game_count <= 3):
                 return lowest_delta(srcd, 2);
