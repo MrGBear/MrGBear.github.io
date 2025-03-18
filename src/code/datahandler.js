@@ -8,7 +8,7 @@ import { calculate_ega } from './ega_handicap.js';
 import { calculateWHS } from "./whs_handicap.js";
 
 //overwrites localstorage function, always uses testdata
-const usetest = false;
+const usetest = true;
 
 //Default JSON OBJECTS
 const default_value = {
@@ -35,11 +35,20 @@ const dataObject = {
             "role": "sekretaer"
         },
         {
+            "user_id": 0,
+            "user_name": "Master",
+            "password": "1234",
+            "email": "Master@gm.de",
+            "role": "spielfuehrer"
+        },
+        {
             "user_id": 1,
             "user_name": "Golfprofi",
             "password": "1234",
             "email": "golfprofi@golf.de",
             "role": "spieler",
+            "ega": 11.9,
+            "whs": 12.1,
             "games": [
                 {
                     "game_id": 1,

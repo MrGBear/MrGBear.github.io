@@ -152,7 +152,7 @@ const calculateHandicap = () => {
       console.log("games:" + JSON.stringify(backendCalc.getGames()));
 
       //muss noch angepasst werden -> sends email to user that data has been edited
-      send_email(player_name, ega, whs, user.email);
+      send_email(player_name, backendCalc.getUserData().egq, backendCalc.getUserData().whs, user.email);
     } else {
       console.log("Fehlerhafte Eingaben.");
     }
