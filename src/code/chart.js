@@ -61,13 +61,20 @@ import { backendCalc } from "./datahandler.js";
 // Get the user data
 const user = JSON.parse(localStorage.getItem("selectedUser"));
 backendCalc.switchUser(user.id);
-const games = backendCalc.getGames();
+const gamesBefore = backendCalc.getGames();
 
 console.log(backendCalc.getGames());
 
 console.log(games);
 console.log(user.id);
 console.log(games[0].game_id);
+
+
+const games = [];
+
+for(let i = 1; i < gamesBefore.length; i++){
+    games.push(gamesBefore[i]);
+}
 
 function addGames(){
     games.forEach(element => {
