@@ -4,7 +4,6 @@ import { backendCalc } from './datahandler.js';
 import {send_email} from "./email_service.js";
 import {ega_calc} from "./ega_handicap.js";
 
-const calculateHandicap = () => {
   // error handling
   function validateInputs() {
     let isValid = true;
@@ -159,10 +158,5 @@ const calculateHandicap = () => {
       console.log("Fehlerhafte Eingaben.");
     }
   });
-}
 
-// if button calculate is clicked
-// brauchen wir das
-const btn = document.getElementById("calculateHandicap");
 
-btn.addEventListener("click", calculateHandicap);
