@@ -1,8 +1,8 @@
 // how data is sent to calculation to be correctly permitted
 
 import { backendCalc } from './datahandler.js';
-import {send_email} from "./email_service";
-import {ega_calc} from "./ega_handicap";
+import {send_email} from "./email_service.js";
+import {ega_calc} from "./ega_handicap.js";
 
 const calculateHandicap = () => {
     // error handling
@@ -11,7 +11,6 @@ const calculateHandicap = () => {
         const errorMessages = {}; // Speichert Fehler pro Feld
 
         // Eingaben abrufen
-        const playerName = document.getElementById("player_name").value.trim();
         const courseName = document.getElementById("course_name").value.trim();
         const courseRating = document.getElementById("course_rating").value.trim();
         const slopeRating = document.getElementById("slope_rating").value.trim();
@@ -24,11 +23,6 @@ const calculateHandicap = () => {
 
         let hasError = false;
 
-        // Überprüfung: Name darf nicht leer sein
-        if (!playerName) {
-            showError("player_name", "Bitte gib deinen Namen ein.");
-            hasError = true;
-        }
 
         if (!courseName) {
             showError("course_name", "Bitte gib deinen Kurs ein.");
@@ -71,8 +65,12 @@ const calculateHandicap = () => {
         // Überprüfung: Spiel existiert bereits?
 
 
+        // Zurückführen zur Startseite
+
+        window.location.href="../html/startPage.html";
+
         // Wenn ein Fehler vorliegt, Abbruch
-        if (hasError) return;
+        return !hasError;
 
 // Funktion zur Anzeige von Fehlermeldungen
         function showError(inputId, message) {
@@ -103,7 +101,6 @@ const calculateHandicap = () => {
             backendCalc.switchUser(user.id);
 
             // get Data from frontend
-            const player_name = document.getElementById("player_name").value;  // Player name
             const course_name = document.getElementById("course_name").value;  // Course name
             const course_rating = parseFloat(document.getElementById("course_rating").value);  // Course rating
             const slope_rating = parseInt(document.getElementById("slope_rating").value);  // Slope rating
