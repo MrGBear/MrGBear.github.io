@@ -89,7 +89,6 @@ import {ega_calc} from "./ega_handicap.js";
     // Event Listener für den Handicap-Berechnen-Button
     document.getElementById("calculateHandicap").addEventListener("click", function () {
         if (validateInputs()) {
-            debugger;
             console.log("Daten sind gültig, Berechnung wird gestartet...");
             // Get the current user
             const user = JSON.parse(localStorage.getItem("selectedUser"));
@@ -142,7 +141,6 @@ import {ega_calc} from "./ega_handicap.js";
 
             console.log("games:" + JSON.stringify(backendCalc.getGames()));
             // Zurückführen zur Startseite
-            debugger;
             window.location.href="../html/startPage.html";
         } else {
             console.log("Fehlerhafte Eingaben.");
