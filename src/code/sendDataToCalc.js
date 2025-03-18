@@ -70,7 +70,7 @@ const calculateHandicap = () => {
         window.location.href="../html/startPage.html";
 
         // Wenn ein Fehler vorliegt, Abbruch
-        return true;
+        return !hasError;
 
 // Funktion zur Anzeige von Fehlermeldungen
         function showError(inputId, message) {
