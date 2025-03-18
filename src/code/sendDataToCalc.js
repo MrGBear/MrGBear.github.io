@@ -66,8 +66,9 @@ const calculateHandicap = () => {
 
 
         // Zurückführen zur Startseite
-
+        if(!hasError){
         window.location.href="../html/startPage.html";
+        }
 
         // Wenn ein Fehler vorliegt, Abbruch
         return !hasError;
