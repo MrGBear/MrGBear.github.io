@@ -6,7 +6,7 @@
   <meta charset="UTF-8">
   <title>New User</title>
   <!-- tailwind - import -->
-  <script src="../code/style.tailwind.js"></script>
+  <script src="src/code/style.tailwind.js"></script>
   <link rel="icon" href="">
   <script>
     tailwind.config = {
@@ -22,7 +22,7 @@
   </script>
 </head>
 <body>
-<section class="bg-gray-50 dark:bg-gray-900 bg-[url('../resources/wii.png')]">
+<section class="bg-gray-50 dark:bg-gray-900 bg-[url('/src/resources/wii.png')]">
   <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
     <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
       <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
@@ -52,7 +52,7 @@
         <button id="createUser" class="w-full text-white bg-darkseagreen hover:bg-darkseagreen focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Sign in</button>
         <!-- can also directly switch to selectUser when User is already created -->
         <p class="text-sm font-light text-gray-500 dark:text-gray-400">
-          Du hast bereits einen User? <a href="selectUser.html" class="font-medium text-primary-600 hover:underline dark:text-primary-500">Jetzt aussuchen</a>
+          Du hast bereits einen User? <a href="src/html/selectUser.html" class="font-medium text-primary-600 hover:underline dark:text-primary-500">Jetzt aussuchen</a>
         </p>
       </div>
     </div>
@@ -60,6 +60,6 @@
 </section>
 </body>
 <!-- script import -->
-<script type="module" src="../code/newUser.js"></script>
+<script type="module" src="src/code/newUser.js"></script>
 </html>
 
