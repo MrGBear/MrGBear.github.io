@@ -54,7 +54,7 @@ document.getElementById("createUser").addEventListener("click", () => {
     else {
         backendCalc.addUser({ user_name: name, email: email, role: role });
         console.log(backendCalc.getUsers());
-        window.location.href = "../golf_handicap/src/html/selectUser.html"
+        window.location.href = "./src/html/selectUser.html"
     }
 });
 
