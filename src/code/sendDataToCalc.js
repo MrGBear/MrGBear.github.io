@@ -138,6 +138,7 @@ import {ega_calc} from "./ega_handicap.js";
             console.log("Try to store the data", dataToCalc);
             try{
                 backendCalc.addGame(dataToCalc);
+                window.location.href="../html/result.html";
             } catch {
                 return
             }
