@@ -153,6 +153,8 @@ document.getElementById("calculateHandicap").addEventListener("click", function 
     backendCalc.modGame(game_to_modify.game_id, dataToCalc);
 
     send_email(player_name, backendCalc.getUserData().ega, backendCalc.getUserData().whs, user.email);
+
+    window.location.href = "../html/startPage.html"
   } else {
     console.log("Fehlerhafte Eingaben.");
   }
