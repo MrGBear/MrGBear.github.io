@@ -8,7 +8,7 @@
 function create_mail_text(player_name, ega_hdci, whs_hdci) {
     const email = `Hallo ${player_name},
 
-Uns liegt ein Update zu deinem Ergebnissen vor, weswegen wir das Handicap neu berechnet haben.
+Uns liegt ein Update zu deinen Ergebnissen vor, weswegen wir das Handicap neu berechnet haben.
 
 Dein neues Handicap nach dem EGA-System ist: ${ega_hdci},
 Dein neues Handicap nach dem WHS-System ist: ${whs_hdci}
@@ -16,7 +16,7 @@ Dein neues Handicap nach dem WHS-System ist: ${whs_hdci}
 Wir wünschen dir einen angenehmen Tag und freuen uns auf deinen nächsten Besuch!
 
 Mit freundlichen Grüßen
-Ihr Golfteam
+Dein Golf Team
 `
     return email;
 }
