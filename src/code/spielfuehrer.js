@@ -1,4 +1,4 @@
-import {DataHandler} from "./datahandler.js";
+import { DataHandler } from "./datahandler.js";
 
 document.addEventListener("DOMContentLoaded", async function () {
     const calc = new DataHandler();
@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     // for each player a button in created (not sekretär)
     players.forEach(player => {
-        if(player.role === "spieler") {
+        if (player.role === "spieler") {
             const button = document.createElement("button");
             button.textContent = player.name;
             button.className = "w-full text-white bg-darkseagreen hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mt-2";
@@ -32,7 +32,8 @@ document.addEventListener("DOMContentLoaded", async function () {
 function showGamesPopup(playerId, name) {
     const calc = new DataHandler();
     // get all Games of individual User, maybe add switchUser
-    const playerData = calc.getGames(playerId); // Spieler-ID übergeben
+    calc.switchUser(playerId);
+    const playerData = calc.getGames(); // Spieler-ID übergeben
 
     console.log(calc.getGames(playerId));
 
