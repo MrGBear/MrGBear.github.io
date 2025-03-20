@@ -5,7 +5,7 @@ const xLabelsWHS = [];
 //y-Achse WHS
 const valuesWHS = [];
 
-function writeChartWHS(){
+function writeChartWHS() {
     const chartCode = ' xychart-beta\n'
         + `    x-axis [${xLabelsWHS.join(",")}]
 `
@@ -25,7 +25,7 @@ const xLabelsEGA = [];
 const valuesEGA = [];
 
 
-function writeChartEGA(){
+function writeChartEGA() {
     const chartCode = ' xychart-beta\n'
         + `    x-axis [${xLabelsEGA.join(",")}]
 `
@@ -40,7 +40,7 @@ function writeChartEGA(){
 writeChartEGA();
 
 //function, where the ega and whs numbers can be added
-function addValueToChartWHS(xLabel, value){
+function addValueToChartWHS(xLabel, value) {
     xLabelsWHS.push(xLabel);
     valuesWHS.push(value);
     console.log(xLabelsWHS);
@@ -48,7 +48,7 @@ function addValueToChartWHS(xLabel, value){
     writeChartWHS();
 }
 
-function addValueToChartEGA(xLabel, value){
+function addValueToChartEGA(xLabel, value) {
     xLabelsEGA.push(xLabel);
     valuesEGA.push(value);
     console.log(xLabelsEGA);
@@ -69,13 +69,13 @@ console.log(backendCalc.getGames());
 
 const games = [];
 
-for(let i = 0; i < gamesBefore.length; i++){
+for (let i = 0; i < gamesBefore.length; i++) {
     games.push(gamesBefore[i]);
 }
 
 console.log(games);
 
-function addGames(){
+function addGames() {
     games.forEach(element => {
         addValueToChartWHS(element.game_id, element.whs);
         addValueToChartEGA(element.game_id, element.ega);
@@ -84,9 +84,10 @@ function addGames(){
 
 // gets ega and whs from updateHandicap in datahandler.js
 document.addEventListener("DOMContentLoaded", function () {
-    console.log("Value EGA", valuesEGA[length]);
-        document.getElementById('whs').textContent = valuesWHS[length];
-        document.getElementById('ega').textContent = valuesEGA[length];
+    let games = backendCalc.getGames()
+    let i = games.length - 1;
+    document.getElementById('whs').textContent = games[i].whs;
+    document.getElementById('ega').textContent = games[i].ega;
 });
 
 //has to be in a different file
