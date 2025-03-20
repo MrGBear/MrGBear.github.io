@@ -3,6 +3,9 @@ import { DataHandler } from "./datahandler.js";
 document.addEventListener("DOMContentLoaded", async function () {
     const calc = new DataHandler();
 
+    // Save spielfuehrer in localstorage:
+    localStorage.setItem("spielfuehrer", localStorage.getItem("selectedUser"));
+
     // all Users are getted
     let players = calc.getUsers();
     const userButtonCon = document.getElementById("userButtons");
