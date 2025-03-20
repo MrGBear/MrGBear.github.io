@@ -2,9 +2,9 @@
 
 
 //Config
-import {Storage} from './localstorage_store.js';
-import {calculate_ega} from './ega_handicap.js';
-import {calculateWHS} from "./whs_handicap.js";
+import { Storage } from './localstorage_store.js';
+import { calculate_ega } from './ega_handicap.js';
+import { calculateWHS } from "./whs_handicap.js";
 
 //overwrites localstorage function, always uses testdata
 const usetest = false;
@@ -135,7 +135,7 @@ export class DataHandler {
     getGames(copy = true) {
         const userData = this.getUserData(undefined, copy);
         if (userData.games === undefined) {
-            userData.games = [{ ega: 54, whs: 54, game_id: 0, ignore: true }]
+            userData.games = [{ course_name: "Startwerte", ega: 54, whs: 54, game_id: 0, ignore: true }]
         }
         return userData.games;
     }
@@ -164,23 +164,23 @@ export class DataHandler {
             //get game ID
             const games = this.getGames();
             const game_id = games.reduce((max, game) => Math.max(max, game.game_id), 0) + 1;
-            this.getGames(false).push({game_id: game_id});
+            this.getGames(false).push({ game_id: game_id });
             data.game_id = game_id;
             try {
                 return this.modGame(data.game_id, data);
-            } catch(error) {
+            } catch (error) {
                 this.removeGame(game_id)
                 throw error;
             }
         }
         try {
             return this.modGame(data.game_id, data);
-        } catch(error) {
+        } catch (error) {
             throw error;
         }
 
-        
- 
+
+
     }
 
     modGame(game_id, data) {
@@ -245,7 +245,7 @@ export class DataHandler {
         console.log("min Index:" + min_index);
         for (let i = min_index; i <= games.length; i++) {
             let subGames = this.exportObject(games.slice(0, i));
-            
+
             if (subGames.length != 1) {
                 const ega = calculate_ega(subGames);
                 games[i - 1].ega = ega.ega;
